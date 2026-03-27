@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ParkEase — Phoenix Marketcity, Bengaluru</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00e5a0;
+    --accent2: #ff6b35;
+    --accent3: #4f8ef7;
+    --text: #f0f2f7;
+    --muted: #6b7280;
+    --danger: #ff4757;
+    --warning: #ffc107;
+    --success: #00e5a0;
+    --card-bg: #13161f;
+    --r: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+  h1,h2,h3,h4 { font-family: 'Syne', sans-serif; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+  /* PAGE SYSTEM */
+  .page { display: none; min-height: 100vh; animation: fadeIn .35s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,12,16,0.92); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; height: 60px;
+  }
+  .nav-logo { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--accent); cursor: pointer; display:flex; align-items:center; gap:8px; }
+  .nav-logo span { color: var(--text); }
+  .nav-links { display: flex; gap: 6px; align-items: center; }
+  .nav-btn { padding: 7px 14px; border-radius: 8px; border: none; cursor: pointer; font-family:'DM Sans'; font-size:.85rem; font-weight:500; transition: all .2s; }
+  .nav-btn.ghost { background: transparent; color: var(--muted); }
+  .nav-btn.ghost:hover { color: var(--text); background: var(--surface2); }
+  .nav-btn.primary { background: var(--accent); color: #000; }
+  .nav-btn.primary:hover { background: #00ffb3; }
+  .nav-user { display:flex; align-items:center; gap:10px; }
+  .avatar { width:34px; height:34px; border-radius:50%; background: linear-gradient(135deg,var(--accent),var(--accent3)); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.85rem; color:#000; cursor:pointer; }
+
+  /* INPUTS / FORMS */
+  .input-group { margin-bottom: 16px; }
+  .input-group label { display:block; font-size:.82rem; font-weight:500; color:var(--muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em; }
+  .input-group input, .input-group select, .input-group textarea {
+    width:100%; padding:12px 16px; background:var(--surface2); border:1.5px solid var(--border);
+    border-radius:10px; color:var(--text); font-family:'DM Sans'; font-size:.95rem; outline:none; transition:all .2s;
+  }
+  .input-group input:focus, .input-group select:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(0,229,160,.1); }
+  .input-group input.error { border-color:var(--danger); }
+  .error-msg { font-size:.78rem; color:var(--danger); margin-top:4px; }
+  .input-group select option { background: var(--surface2); }
+
+  /* BUTTONS */
+  .btn { padding:13px 28px; border-radius:10px; border:none; cursor:pointer; font-family:'DM Sans'; font-weight:600; font-size:.95rem; transition:all .2s; display:inline-flex; align-items:center; gap:8px; }
+  .btn-primary { background:var(--accent); color:#000; }
+  .btn-primary:hover { background:#00ffb3; transform:translateY(-1px); box-shadow:0 8px 25px rgba(0,229,160,.3); }
+  .btn-secondary { background:var(--surface2); color:var(--text); border:1.5px solid var(--border); }
+  .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
+  .btn-danger { background:rgba(255,71,87,.15); color:var(--danger); border:1.5px solid var(--danger); }
+  .btn-danger:hover { background:var(--danger); color:#fff; }
+  .btn-full { width:100%; justify-content:center; }
+  .btn-sm { padding:8px 16px; font-size:.82rem; }
+
+  /* CARDS */
+  .card { background:var(--card-bg); border:1.5px solid var(--border); border-radius:var(--r); padding:20px; transition:all .2s; }
+  .card:hover { border-color:rgba(0,229,160,.25); box-shadow:0 8px 32px rgba(0,0,0,.3); }
+
+  /* BADGES */
+  .badge { display:inline-flex; align-items:center; gap:4px; padding:4px 10px; border-radius:999px; font-size:.75rem; font-weight:600; }
+  .badge-green { background:rgba(0,229,160,.15); color:var(--accent); }
+  .badge-red { background:rgba(255,71,87,.15); color:var(--danger); }
+  .badge-yellow { background:rgba(255,193,7,.15); color:var(--warning); }
+  .badge-blue { background:rgba(79,142,247,.15); color:var(--accent3); }
+
+  /* DIVIDER */
+  .divider { border:none; border-top:1px solid var(--border); margin: 20px 0; }
+
+  /* TAG */
+  .tag { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; border-radius:8px; font-size:.8rem; font-weight:500; }
+
+  /* GRID */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+
+  /* ===================== AUTH PAGES ===================== */
+  .auth-wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;
+    background: radial-gradient(ellipse at 20% 50%, rgba(0,229,160,.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(79,142,247,.06) 0%, transparent 60%), var(--bg); }
+  .auth-card { background:var(--surface); border:1.5px solid var(--border); border-radius:20px; padding:40px; width:100%; max-width:440px; }
+  .auth-logo { text-align:center; margin-bottom:28px; }
+  .auth-logo .logo-icon { width:56px; height:56px; background: linear-gradient(135deg,var(--accent),var(--accent3)); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin:0 auto 12px; }
+  .auth-logo h2 { font-size:1.5rem; font-weight:800; }
+  .auth-logo p { color:var(--muted); font-size:.88rem; margin-top:4px; }
+  .strength-bar { height:4px; border-radius:2px; background:var(--surface2); margin-top:8px; overflow:hidden; }
+  .strength-fill { height:100%; border-radius:2px; transition:all .3s; }
+  .auth-footer { text-align:center; margin-top:20px; font-size:.85rem; color:var(--muted); }
+  .auth-footer a { color:var(--accent); cursor:pointer; font-weight:500; }
+  .social-divider { display:flex; align-items:center; gap:12px; margin:20px 0; color:var(--muted); font-size:.82rem; }
+  .social-divider::before, .social-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  /* ===================== HOME PAGE ===================== */
+  .home-hero { padding:48px 24px 32px; text-align:center; max-width:720px; margin:0 auto; }
+  .home-hero .eyebrow { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:rgba(0,229,160,.1); border:1px solid rgba(0,229,160,.2); border-radius:999px; font-size:.8rem; color:var(--accent); margin-bottom:20px; }
+  .home-hero h1 { font-size:clamp(2rem,5vw,3rem); font-weight:800; line-height:1.15; margin-bottom:12px; }
+  .home-hero h1 span { color:var(--accent); }
+  .home-hero p { color:var(--muted); font-size:1.05rem; line-height:1.6; }
+  .search-bar { display:flex; gap:10px; margin:28px auto; max-width:560px; background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:8px; }
+  .search-bar input { flex:1; background:transparent; border:none; outline:none; color:var(--text); font-family:'DM Sans'; font-size:.95rem; padding:8px 8px; }
+  .map-mock { background:var(--surface); border:1.5px solid var(--border); border-radius:16px; height:300px; margin:0 24px; position:relative; overflow:hidden; }
+  .map-bg { width:100%; height:100%; background: linear-gradient(135deg, #0d1117 0%, #111827 50%, #0f172a 100%); position:relative; }
+  .map-grid { position:absolute; inset:0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size:40px 40px; opacity:.5; }
+  .map-road { position:absolute; background:rgba(255,255,255,.06); }
+  .map-road.h { height:8px; width:100%; top:50%; }
+  .map-road.v { width:8px; height:100%; left:40%; }
+  .map-pin { position:absolute; top:42%; left:38%; transform:translate(-50%,-50%); }
+  .map-pin .pin { width:40px; height:40px; background:var(--accent); border-radius:50% 50% 50% 0; transform:rotate(-45deg); display:flex; align-items:center; justify-content:center; box-shadow:0 4px 20px rgba(0,229,160,.5); animation:pulse 2s infinite; }
+  .map-pin .pin span { transform:rotate(45deg); font-size:1.1rem; }
+  @keyframes pulse { 0%,100%{box-shadow:0 4px 20px rgba(0,229,160,.5)} 50%{box-shadow:0 4px 40px rgba(0,229,160,.8)} }
+  .map-info { position:absolute; bottom:16px; right:16px; background:rgba(10,12,16,.9); backdrop-filter:blur(10px); border:1px solid var(--border); border-radius:12px; padding:12px 16px; }
+  .map-info h4 { font-size:.9rem; font-weight:700; }
+  .map-info p { font-size:.78rem; color:var(--muted); margin-top:2px; }
+  .nearby-section { padding:24px; }
+  .section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+  .section-header h3 { font-size:1.15rem; font-weight:700; }
+  .section-header a { font-size:.85rem; color:var(--accent); cursor:pointer; }
+  .parking-cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:14px; }
+  .parking-card { background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:18px; cursor:pointer; transition:all .2s; }
+  .parking-card:hover { border-color:rgba(0,229,160,.3); transform:translateY(-2px); box-shadow:0 12px 40px rgba(0,0,0,.4); }
+  .pc-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:12px; }
+  .pc-name { font-weight:700; font-size:1rem; }
+  .pc-dist { font-size:.78rem; color:var(--muted); margin-top:2px; }
+  .pc-slots { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+  .slot-chip { display:flex; align-items:center; gap:5px; padding:5px 10px; background:var(--surface2); border-radius:8px; font-size:.8rem; }
+  .slot-dot { width:8px; height:8px; border-radius:50%; }
+  .pc-footer { display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--border); padding-top:10px; margin-top:4px; }
+  .price-tag { font-weight:700; font-size:1rem; }
+  .price-tag span { font-size:.75rem; font-weight:400; color:var(--muted); }
+  .alerts-row { display:flex; gap:10px; padding:0 24px 20px; overflow-x:auto; }
+  .alert-chip { display:flex; align-items:center; gap:8px; padding:10px 16px; background:var(--surface); border:1px solid var(--border); border-radius:999px; font-size:.82rem; white-space:nowrap; flex-shrink:0; }
+  .alert-chip.rain { border-color:rgba(79,142,247,.3); color:var(--accent3); }
+  .alert-chip.traffic { border-color:rgba(255,107,53,.3); color:var(--accent2); }
+  .alert-chip.weekend { border-color:rgba(255,193,7,.3); color:var(--warning); }
+
+  /* ===================== LISTING PAGE ===================== */
+  .listing-header { padding:24px 24px 16px; background: linear-gradient(180deg, var(--surface) 0%, transparent 100%); border-bottom:1px solid var(--border); }
+  .listing-header h2 { font-size:1.4rem; font-weight:800; }
+  .listing-header p { color:var(--muted); font-size:.88rem; margin-top:4px; }
+  .filters-row { display:flex; gap:10px; padding:16px 24px; overflow-x:auto; border-bottom:1px solid var(--border); }
+  .filter-pill { padding:8px 16px; border-radius:999px; border:1.5px solid var(--border); background:transparent; color:var(--muted); font-family:'DM Sans'; font-size:.82rem; cursor:pointer; transition:all .2s; white-space:nowrap; }
+  .filter-pill.active, .filter-pill:hover { border-color:var(--accent); color:var(--accent); background:rgba(0,229,160,.08); }
+  .zones-list { padding:20px 24px; display:flex; flex-direction:column; gap:12px; }
+  .zone-card { background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:20px; cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:16px; }
+  .zone-card:hover { border-color:rgba(0,229,160,.3); transform:translateX(4px); }
+  .zone-icon { width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; }
+  .zone-info { flex:1; }
+  .zone-info h4 { font-weight:700; font-size:1rem; margin-bottom:4px; }
+  .zone-info p { color:var(--muted); font-size:.83rem; }
+  .zone-stats { text-align:right; }
+  .zone-available { font-size:1.4rem; font-weight:800; font-family:'Syne',sans-serif; }
+  .zone-available.low { color:var(--danger); }
+  .zone-available.med { color:var(--warning); }
+  .zone-available.high { color:var(--accent); }
+  .zone-total { font-size:.75rem; color:var(--muted); }
+  .avail-bar { height:4px; background:var(--surface2); border-radius:2px; margin-top:12px; overflow:hidden; }
+  .avail-fill { height:100%; border-radius:2px; transition:width .6s ease; }
+
+  /* ===================== DETAIL / BOOKING PAGE ===================== */
+  .detail-header { padding:20px 24px; background:var(--surface); border-bottom:1px solid var(--border); }
+  .back-btn { display:inline-flex; align-items:center; gap:6px; color:var(--muted); font-size:.85rem; cursor:pointer; margin-bottom:12px; transition:color .2s; }
+  .back-btn:hover { color:var(--accent); }
+  .detail-header h2 { font-size:1.3rem; font-weight:800; }
+  .detail-header p { color:var(--muted); font-size:.85rem; margin-top:4px; }
+  .booking-layout { display:grid; grid-template-columns:1fr 340px; gap:20px; padding:20px 24px; align-items:start; }
+  @media(max-width:768px) { .booking-layout { grid-template-columns:1fr; } .grid-2,.grid-3 { grid-template-columns:1fr; } }
+  .slot-grid-wrap { }
+  .slot-grid-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .legend { display:flex; gap:12px; flex-wrap:wrap; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:.78rem; color:var(--muted); }
+  .legend-dot { width:10px; height:10px; border-radius:3px; }
+  .slot-grid { display:grid; grid-template-columns:repeat(10,1fr); gap:6px; padding:20px; background:var(--surface); border:1.5px solid var(--border); border-radius:14px; }
+  .slot { width:100%; aspect-ratio:1; border-radius:6px; border:1.5px solid transparent; cursor:pointer; transition:all .15s; display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; position:relative; }
+  .slot.available { background:rgba(0,229,160,.15); border-color:rgba(0,229,160,.3); color:var(--accent); }
+  .slot.available:hover { background:rgba(0,229,160,.35); transform:scale(1.1); }
+  .slot.booked { background:rgba(255,71,87,.1); border-color:rgba(255,71,87,.2); color:var(--danger); cursor:not-allowed; }
+  .slot.reserved { background:rgba(255,193,7,.1); border-color:rgba(255,193,7,.2); color:var(--warning); cursor:not-allowed; }
+  .slot.selected { background:var(--accent); border-color:var(--accent); color:#000; transform:scale(1.1); box-shadow:0 4px 12px rgba(0,229,160,.4); }
+  .slot.ev { background:rgba(79,142,247,.15); border-color:rgba(79,142,247,.3); color:var(--accent3); }
+  .slot.ev:hover { background:rgba(79,142,247,.35); transform:scale(1.1); }
+  .slot.ev.selected { background:var(--accent3); border-color:var(--accent3); color:#fff; }
+  .row-label { display:flex; gap:6px; margin-bottom:4px; }
+  .row-letter { width:100%; text-align:center; font-size:.65rem; color:var(--muted); font-weight:600; }
+  .booking-panel { background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:20px; position:sticky; top:80px; }
+  .booking-panel h3 { font-size:1.1rem; font-weight:700; margin-bottom:16px; }
+  .price-calc { background:var(--surface2); border-radius:10px; padding:14px; margin:16px 0; }
+  .price-row { display:flex; justify-content:space-between; font-size:.85rem; margin-bottom:8px; color:var(--muted); }
+  .price-row:last-child { margin-bottom:0; border-top:1px solid var(--border); padding-top:8px; font-weight:700; color:var(--text); font-size:1rem; }
+  .surge-badge { padding:3px 8px; background:rgba(255,107,53,.15); color:var(--accent2); border-radius:6px; font-size:.72rem; font-weight:600; }
+  .vehicle-selector { display:flex; gap:8px; margin-bottom:16px; }
+  .v-btn { flex:1; padding:10px 8px; border-radius:10px; border:1.5px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; font-family:'DM Sans'; font-size:.82rem; text-align:center; transition:all .2s; }
+  .v-btn.active { border-color:var(--accent); background:rgba(0,229,160,.1); color:var(--accent); }
+  .v-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .v-btn .v-icon { font-size:1.2rem; display:block; margin-bottom:4px; }
+  .counter { display:flex; align-items:center; gap:12px; background:var(--surface2); border-radius:10px; padding:4px; }
+  .counter-btn { width:36px; height:36px; border-radius:8px; border:none; background:var(--surface); color:var(--text); font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+  .counter-btn:hover { background:var(--accent); color:#000; }
+  .counter-val { flex:1; text-align:center; font-weight:700; font-size:1.1rem; }
+  .duration-input { display:flex; align-items:center; gap:8px; }
+  .duration-input input[type=range] { flex:1; accent-color:var(--accent); }
+  .selected-slots-list { display:flex; flex-wrap:wrap; gap:6px; min-height:36px; margin:10px 0; padding:10px; background:var(--surface2); border-radius:8px; }
+  .sel-slot-tag { padding:4px 10px; background:rgba(0,229,160,.15); border:1px solid rgba(0,229,160,.3); border-radius:6px; font-size:.78rem; color:var(--accent); font-weight:600; display:flex; align-items:center; gap:4px; }
+  .sel-slot-tag .rm { cursor:pointer; opacity:.6; }
+  .sel-slot-tag .rm:hover { opacity:1; color:var(--danger); }
+
+  /* ===================== PAYMENT PAGE ===================== */
+  .payment-wrap { max-width:600px; margin:0 auto; padding:24px; }
+  .payment-wrap h2 { font-size:1.4rem; font-weight:800; margin-bottom:20px; }
+  .booking-summary { background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:20px; margin-bottom:20px; }
+  .booking-summary h3 { font-size:.9rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px; }
+  .summary-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border); font-size:.9rem; }
+  .summary-row:last-child { border-bottom:none; }
+  .summary-row .label { color:var(--muted); }
+  .summary-row .value { font-weight:600; }
+  .payment-methods { background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:20px; margin-bottom:20px; }
+  .payment-methods h3 { font-size:.9rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px; }
+  .pay-method { display:flex; align-items:center; gap:12px; padding:14px; border-radius:10px; border:1.5px solid var(--border); cursor:pointer; transition:all .2s; margin-bottom:10px; }
+  .pay-method:hover, .pay-method.active { border-color:var(--accent); background:rgba(0,229,160,.06); }
+  .pay-method .pm-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; }
+  .pay-method .pm-info h4 { font-size:.9rem; font-weight:600; }
+  .pay-method .pm-info p { font-size:.78rem; color:var(--muted); }
+  .pay-method .pm-radio { margin-left:auto; width:18px; height:18px; border-radius:50%; border:2px solid var(--border); transition:all .2s; }
+  .pay-method.active .pm-radio { border-color:var(--accent); background:var(--accent); }
+  .upi-apps { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+  .upi-app { display:flex; flex-direction:column; align-items:center; gap:5px; padding:10px 14px; background:var(--surface2); border-radius:10px; cursor:pointer; font-size:.75rem; transition:all .2s; }
+  .upi-app:hover { background:rgba(0,229,160,.1); color:var(--accent); }
+  .upi-app .app-icon { font-size:1.5rem; }
+  .card-form { margin-top:10px; }
+  .total-bar { display:flex; align-items:center; justify-content:space-between; padding:16px; background:rgba(0,229,160,.06); border:1.5px solid rgba(0,229,160,.2); border-radius:12px; margin-bottom:16px; }
+  .total-bar .total-label { color:var(--muted); font-size:.9rem; }
+  .total-bar .total-amount { font-size:1.6rem; font-weight:800; font-family:'Syne',sans-serif; color:var(--accent); }
+
+  /* ===================== CONFIRMATION PAGE ===================== */
+  .confirm-wrap { max-width:520px; margin:0 auto; padding:40px 24px; text-align:center; }
+  .confirm-icon { width:80px; height:80px; border-radius:50%; background:rgba(0,229,160,.15); border:2px solid var(--accent); display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto 24px; animation:popIn .5s cubic-bezier(.175,.885,.32,1.275); }
+  @keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
+  .confirm-wrap h2 { font-size:1.8rem; font-weight:800; margin-bottom:8px; }
+  .confirm-wrap p { color:var(--muted); margin-bottom:24px; }
+  .booking-id { display:inline-block; padding:8px 20px; background:var(--surface2); border-radius:999px; font-family:monospace; font-size:1.1rem; font-weight:700; color:var(--accent); margin-bottom:24px; letter-spacing:.1em; }
+  .confirm-details { background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:20px; text-align:left; margin-bottom:24px; }
+  .confirm-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border); font-size:.9rem; }
+  .confirm-row:last-child { border-bottom:none; }
+  .confirm-row .cl { color:var(--muted); }
+  .timer-box { background: linear-gradient(135deg, rgba(0,229,160,.1), rgba(79,142,247,.05)); border:1.5px solid rgba(0,229,160,.25); border-radius:12px; padding:16px; margin-bottom:20px; }
+  .timer-box h4 { font-size:.85rem; color:var(--muted); margin-bottom:8px; }
+  .timer-display { font-size:2rem; font-weight:800; font-family:'Syne',sans-serif; color:var(--accent); font-variant-numeric:tabular-nums; }
+
+  /* ===================== DASHBOARD PAGE ===================== */
+  .dash-wrap { max-width:900px; margin:0 auto; padding:24px; }
+  .dash-header { margin-bottom:24px; }
+  .dash-header h2 { font-size:1.5rem; font-weight:800; }
+  .dash-header p { color:var(--muted); font-size:.88rem; margin-top:4px; }
+  .stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:24px; }
+  .stat-card { background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:18px; }
+  .stat-card .stat-val { font-size:1.8rem; font-weight:800; font-family:'Syne',sans-serif; }
+  .stat-card .stat-label { color:var(--muted); font-size:.82rem; margin-top:4px; }
+  .booking-list { display:flex; flex-direction:column; gap:12px; }
+  .booking-item { background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:18px; display:flex; align-items:center; gap:16px; }
+  .booking-item .bi-icon { width:48px; height:48px; border-radius:12px; background:var(--surface2); display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0; }
+  .booking-item .bi-info { flex:1; }
+  .booking-item .bi-info h4 { font-weight:600; font-size:.95rem; }
+  .booking-item .bi-info p { color:var(--muted); font-size:.8rem; margin-top:2px; }
+  .booking-item .bi-right { text-align:right; }
+  .booking-item .bi-price { font-weight:700; font-size:1rem; }
+  .booking-item .bi-time { font-size:.75rem; color:var(--muted); margin-top:2px; }
+  .tabs { display:flex; gap:4px; background:var(--surface); border:1.5px solid var(--border); border-radius:10px; padding:4px; margin-bottom:16px; }
+  .tab { flex:1; padding:8px; text-align:center; border-radius:7px; font-size:.85rem; cursor:pointer; color:var(--muted); transition:all .2s; }
+  .tab.active { background:var(--accent); color:#000; font-weight:600; }
+
+  /* ===================== HELP PAGE ===================== */
+  .help-wrap { max-width:800px; margin:0 auto; padding:24px; }
+  .help-hero { background: linear-gradient(135deg, rgba(0,229,160,.08), rgba(79,142,247,.06)); border:1.5px solid rgba(0,229,160,.15); border-radius:16px; padding:32px; text-align:center; margin-bottom:24px; }
+  .help-hero h2 { font-size:1.6rem; font-weight:800; margin-bottom:8px; }
+  .help-hero p { color:var(--muted); }
+  .emergency-btn { padding:16px 32px; background: linear-gradient(135deg, var(--danger), #ff6b6b); color:#fff; border:none; border-radius:12px; font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:10px; margin-top:16px; animation:pulseRed 2s infinite; box-shadow:0 4px 20px rgba(255,71,87,.4); }
+  @keyframes pulseRed { 0%,100%{box-shadow:0 4px 20px rgba(255,71,87,.4)} 50%{box-shadow:0 4px 40px rgba(255,71,87,.7)} }
+  .help-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px; }
+  @media(max-width:600px) { .help-grid { grid-template-columns:1fr; } .stats-row { grid-template-columns:1fr 1fr; } }
+  .help-card { background:var(--surface); border:1.5px solid var(--border); border-radius:14px; padding:20px; }
+  .help-card h3 { font-size:1rem; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .faq-item { border-bottom:1px solid var(--border); padding:12px 0; cursor:pointer; }
+  .faq-item:last-child { border-bottom:none; }
+  .faq-q { display:flex; align-items:center; justify-content:space-between; font-weight:500; font-size:.9rem; }
+  .faq-a { color:var(--muted); font-size:.85rem; margin-top:8px; line-height:1.5; display:none; }
+  .faq-item.open .faq-a { display:block; }
+  .faq-item.open .faq-arrow { transform:rotate(180deg); }
+  .faq-arrow { transition:transform .2s; color:var(--muted); }
+  .report-btns { display:flex; flex-direction:column; gap:8px; }
+  .report-btn { padding:12px 16px; background:var(--surface2); border:1.5px solid var(--border); border-radius:10px; cursor:pointer; font-family:'DM Sans'; font-size:.88rem; text-align:left; color:var(--text); display:flex; align-items:center; gap:10px; transition:all .2s; }
+  .report-btn:hover { border-color:var(--accent2); color:var(--accent2); background:rgba(255,107,53,.05); }
+
+  /* TOAST */
+  .toast { position:fixed; bottom:24px; right:24px; padding:14px 20px; background:var(--surface); border:1.5px solid var(--border); border-radius:12px; font-size:.88rem; z-index:9999; display:flex; align-items:center; gap:10px; box-shadow:0 8px 32px rgba(0,0,0,.5); transform:translateY(100px); opacity:0; transition:all .3s; }
+  .toast.show { transform:translateY(0); opacity:1; }
+  .toast.success { border-color:rgba(0,229,160,.4); }
+  .toast.error { border-color:rgba(255,71,87,.4); }
+
+  /* MODAL */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); backdrop-filter:blur(6px); z-index:500; align-items:center; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:var(--surface); border:1.5px solid var(--border); border-radius:20px; padding:28px; width:90%; max-width:440px; animation:modalIn .3s cubic-bezier(.175,.885,.32,1.275); }
+  @keyframes modalIn { from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1} }
+  .modal h3 { font-size:1.2rem; font-weight:700; margin-bottom:8px; }
+  .modal p { color:var(--muted); font-size:.88rem; margin-bottom:20px; }
+  .modal-footer { display:flex; gap:10px; margin-top:20px; }
+
+  .section-title { font-size:1.15rem; font-weight:700; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<!-- NAV -->
+<nav id="main-nav" style="display:none;">
+  <div class="nav-logo" onclick="showPage('home')">🅿️ <span>ParkEase</span></div>
+  <div class="nav-links" id="nav-links">
+    <button class="nav-btn ghost" onclick="showPage('home')">Home</button>
+    <button class="nav-btn ghost" onclick="showPage('listing')">Find Parking</button>
+    <button class="nav-btn ghost" onclick="showPage('dashboard')">Dashboard</button>
+    <button class="nav-btn ghost" onclick="showPage('help')">Help</button>
+    <div class="nav-user">
+      <div class="avatar" id="nav-avatar">U</div>
+      <button class="nav-btn ghost" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ SIGNUP PAGE ============ -->
+<div class="page active" id="page-signup">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <div class="logo-icon">🅿️</div>
+        <h2>Create Account</h2>
+        <p>Smart parking for Phoenix Marketcity</p>
+      </div>
+      <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" id="su-name" placeholder="Rahul Sharma" oninput="validateField(this,'name')">
+        <div class="error-msg" id="err-name"></div>
+      </div>
+      <div class="grid-2">
+        <div class="input-group">
+          <label>Username</label>
+          <input type="text" id="su-username" placeholder="rahul_s" oninput="validateField(this,'username')">
+          <div class="error-msg" id="err-username"></div>
+        </div>
+        <div class="input-group">
+          <label>Phone</label>
+          <input type="tel" id="su-phone" placeholder="+91 98765 43210" oninput="validateField(this,'phone')">
+          <div class="error-msg" id="err-phone"></div>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Email (Gmail)</label>
+        <input type="email" id="su-email" placeholder="rahul@gmail.com" oninput="validateField(this,'email')">
+        <div class="error-msg" id="err-email"></div>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="su-pass" placeholder="Min 8 characters" oninput="checkStrength()">
+        <div class="strength-bar"><div class="strength-fill" id="strength-fill" style="width:0"></div></div>
+        <div class="error-msg" id="err-pass"></div>
+      </div>
+      <div class="input-group">
+        <label>Confirm Password</label>
+        <input type="password" id="su-cpass" placeholder="Repeat password" oninput="validateField(this,'cpass')">
+        <div class="error-msg" id="err-cpass"></div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="doSignup()">Create Account →</button>
+      <div class="auth-footer">Already have an account? <a onclick="showPage('login')">Sign In</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LOGIN PAGE ============ -->
+<div class="page" id="page-login">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <div class="logo-icon">🅿️</div>
+        <h2>Welcome Back</h2>
+        <p>Sign in to your ParkEase account</p>
+      </div>
+      <div class="input-group">
+        <label>Email or Username</label>
+        <input type="text" id="li-email" placeholder="rahul@gmail.com">
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="li-pass" placeholder="Your password">
+      </div>
+      <div style="text-align:right;margin-top:-8px;margin-bottom:16px;">
+        <a style="font-size:.82rem;color:var(--accent);cursor:pointer;" onclick="showForgotModal()">Forgot password?</a>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="doLogin()">Sign In →</button>
+      <div class="social-divider">or continue with</div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-secondary btn-full" onclick="demoLogin()">🚀 Demo Login</button>
+      </div>
+      <div class="auth-footer">New here? <a onclick="showPage('signup')">Create account</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HOME PAGE ============ -->
+<div class="page" id="page-home">
+  <div class="home-hero">
+    <div class="eyebrow">📍 Phoenix Marketcity, Bengaluru</div>
+    <h1>Smart Parking,<br><span>Zero Hassle</span></h1>
+    <p>Book your parking spot in advance. Real-time availability, dynamic pricing, and seamless entry.</p>
+    <div class="search-bar">
+      <span style="padding:8px;font-size:1.1rem;">🔍</span>
+      <input placeholder="Search parking locations near you..." id="search-input">
+      <button class="btn btn-primary btn-sm" onclick="showPage('listing')">Search</button>
+    </div>
+  </div>
+  <div class="alerts-row">
+    <div class="alert-chip rain">🌧️ Rain expected tonight — Covered parking recommended</div>
+    <div class="alert-chip traffic">🚦 High congestion on ORR near mall — Allow extra time</div>
+    <div class="alert-chip weekend">📅 Weekend rush — 60% slots already reserved</div>
+  </div>
+  <div class="map-mock">
+    <div class="map-bg">
+      <div class="map-grid"></div>
+      <div class="map-road h"></div>
+      <div class="map-road v"></div>
+      <div class="map-pin">
+        <div class="pin"><span>🅿️</span></div>
+      </div>
+      <div class="map-info">
+        <h4>Phoenix Marketcity</h4>
+        <p>Mahadevapura, Bengaluru · 0.0 km</p>
+      </div>
+    </div>
+  </div>
+  <div class="nearby-section">
+    <div class="section-header">
+      <h3>Parking Zones Near You</h3>
+      <a onclick="showPage('listing')">View all →</a>
+    </div>
+    <div class="parking-cards">
+      <div class="parking-card" onclick="selectZone('B1')">
+        <div class="pc-header">
+          <div>
+            <div class="pc-name">Basement 1 — B1</div>
+            <div class="pc-dist">📍 Phoenix Mall · Covered</div>
+          </div>
+          <div class="badge badge-green">● Live</div>
+        </div>
+        <div class="pc-slots">
+          <div class="slot-chip"><span class="slot-dot" style="background:var(--accent)"></span>Car: 42 free</div>
+          <div class="slot-chip"><span class="slot-dot" style="background:var(--accent2)"></span>Bike: 67 free</div>
+        </div>
+        <div class="pc-footer">
+          <div class="price-tag">₹50 <span>/ hr · Car</span></div>
+          <button class="btn btn-sm btn-primary" onclick="event.stopPropagation();selectZone('B1')">Book Now</button>
+        </div>
+      </div>
+      <div class="parking-card" onclick="selectZone('B2')">
+        <div class="pc-header">
+          <div>
+            <div class="pc-name">Basement 2 — B2</div>
+            <div class="pc-dist">📍 Phoenix Mall · Covered</div>
+          </div>
+          <div class="badge badge-yellow">● Filling</div>
+        </div>
+        <div class="pc-slots">
+          <div class="slot-chip"><span class="slot-dot" style="background:var(--accent3)"></span>EV: 8 free</div>
+          <div class="slot-chip"><span class="slot-dot" style="background:var(--accent)"></span>Car: 18 free</div>
+        </div>
+        <div class="pc-footer">
+          <div class="price-tag">₹40 <span>/ hr · EV</span></div>
+          <button class="btn btn-sm btn-primary" onclick="event.stopPropagation();selectZone('B2')">Book Now</button>
+        </div>
+      </div>
+      <div class="parking-card" onclick="selectZone('OP')">
+        <div class="pc-header">
+          <div>
+            <div class="pc-name">Open Parking — OA</div>
+            <div class="pc-dist">📍 Phoenix Mall · Open-air</div>
+          </div>
+          <div class="badge badge-green">● Open</div>
+        </div>
+        <div class="pc-slots">
+          <div class="slot-chip"><span class="slot-dot" style="background:var(--accent)"></span>Car: 89 free</div>
+          <div class="slot-chip"><span class="slot-dot" style="background:var(--accent2)"></span>Bike: 112 free</div>
+        </div>
+        <div class="pc-footer">
+          <div class="price-tag">₹50 <span>/ hr · Car</span></div>
+          <button class="btn btn-sm btn-primary" onclick="event.stopPropagation();selectZone('OP')">Book Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LISTING PAGE ============ -->
+<div class="page" id="page-listing">
+  <div class="listing-header">
+    <h2>🅿️ Phoenix Marketcity Parking</h2>
+    <p>Mahadevapura, Bengaluru · 3 zones · 500 total slots</p>
+  </div>
+  <div class="filters-row">
+    <button class="filter-pill active" onclick="setFilter(this,'all')">All Zones</button>
+    <button class="filter-pill" onclick="setFilter(this,'car')">🚗 Car</button>
+    <button class="filter-pill" onclick="setFilter(this,'bike')">🏍️ Bike</button>
+    <button class="filter-pill" onclick="setFilter(this,'ev')">⚡ EV</button>
+    <button class="filter-pill" onclick="setFilter(this,'covered')">🏗️ Covered</button>
+    <button class="filter-pill" onclick="setFilter(this,'available')">✅ Available Now</button>
+  </div>
+  <div class="zones-list">
+    <div class="zone-card" onclick="selectZone('B1')">
+      <div class="zone-icon" style="background:rgba(0,229,160,.1)">🏗️</div>
+      <div class="zone-info">
+        <h4>Basement 1 — B1</h4>
+        <p>Covered · 🚗 Car + 🏍️ Bike · Near Entry Gate 1</p>
+        <div class="avail-bar"><div class="avail-fill" style="width:62%;background:var(--accent)"></div></div>
+      </div>
+      <div class="zone-stats">
+        <div class="zone-available high">109</div>
+        <div class="zone-total">/ 175 slots</div>
+      </div>
+    </div>
+    <div class="zone-card" onclick="selectZone('B2')">
+      <div class="zone-icon" style="background:rgba(255,193,7,.1)">⚡</div>
+      <div class="zone-info">
+        <h4>Basement 2 — B2</h4>
+        <p>Covered · 🚗 Car + ⚡ EV · Near Entry Gate 2</p>
+        <div class="avail-bar"><div class="avail-fill" style="width:28%;background:var(--warning)"></div></div>
+      </div>
+      <div class="zone-stats">
+        <div class="zone-available med">26</div>
+        <div class="zone-total">/ 95 slots</div>
+      </div>
+    </div>
+    <div class="zone-card" onclick="selectZone('OP')">
+      <div class="zone-icon" style="background:rgba(79,142,247,.1)">🌤️</div>
+      <div class="zone-info">
+        <h4>Open Parking — OA</h4>
+        <p>Open-air · 🚗 Car + 🏍️ Bike · Near Main Gate</p>
+        <div class="avail-bar"><div class="avail-fill" style="width:87%;background:var(--accent3)"></div></div>
+      </div>
+      <div class="zone-stats">
+        <div class="zone-available high">201</div>
+        <div class="zone-total">/ 230 slots</div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:0 24px 24px;">
+    <div class="card">
+      <div class="section-title">💰 Pricing</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px;">
+        <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:10px;">
+          <div style="font-size:1.5rem;">🏍️</div>
+          <div style="font-size:1.2rem;font-weight:800;color:var(--accent);font-family:'Syne',sans-serif;">₹20<span style="font-size:.7rem;font-weight:400;color:var(--muted)">/hr</span></div>
+          <div style="font-size:.78rem;color:var(--muted);">Bike</div>
+        </div>
+        <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:10px;">
+          <div style="font-size:1.5rem;">🚗</div>
+          <div style="font-size:1.2rem;font-weight:800;color:var(--accent2);font-family:'Syne',sans-serif;">₹50<span style="font-size:.7rem;font-weight:400;color:var(--muted)">/hr</span></div>
+          <div style="font-size:.78rem;color:var(--muted);">Car</div>
+        </div>
+        <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:10px;">
+          <div style="font-size:1.5rem;">⚡</div>
+          <div style="font-size:1.2rem;font-weight:800;color:var(--accent3);font-family:'Syne',sans-serif;">₹40<span style="font-size:.7rem;font-weight:400;color:var(--muted)">/hr</span></div>
+          <div style="font-size:.78rem;color:var(--muted);">EV</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:10px 14px;background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.2);border-radius:8px;font-size:.82rem;color:var(--accent2);">
+        🔥 Peak Surge (6PM–10PM): +25% on all rates
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DETAIL / BOOKING PAGE ============ -->
+<div class="page" id="page-detail">
+  <div class="detail-header">
+    <div class="back-btn" onclick="showPage('listing')">← Back to listing</div>
+    <h2 id="detail-title">Basement 1 — B1</h2>
+    <p id="detail-sub">Phoenix Marketcity · Covered · Car + Bike</p>
+  </div>
+  <div class="booking-layout">
+    <div class="slot-grid-wrap">
+      <div class="slot-grid-header">
+        <h3 style="font-size:1rem;font-weight:700;">Select Slot(s)</h3>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(0,229,160,.5)"></div>Available</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(255,71,87,.4)"></div>Booked</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(255,193,7,.4)"></div>Reserved</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(79,142,247,.5)"></div>EV</div>
+        </div>
+      </div>
+      <div class="slot-grid" id="slot-grid"></div>
+      <div style="margin-top:16px;padding:12px;background:rgba(255,107,53,.05);border:1px solid rgba(255,107,53,.15);border-radius:10px;font-size:.82rem;color:var(--accent2);">
+        ⚠️ Only <strong id="slots-left-count">12</strong> slots remaining in this zone!
+      </div>
+    </div>
+    <div class="booking-panel">
+      <h3>Book Parking</h3>
+      <div class="section-title" style="font-size:.82rem;margin-bottom:8px;">Vehicle Type</div>
+      <div class="vehicle-selector" id="vehicle-selector">
+        <div class="v-btn active" onclick="setVehicle('bike',this)"><span class="v-icon">🏍️</span>Bike</div>
+        <div class="v-btn" onclick="setVehicle('car',this)"><span class="v-icon">🚗</span>Car</div>
+        <div class="v-btn" onclick="setVehicle('ev',this)"><span class="v-icon">⚡</span>EV</div>
+      </div>
+      <div class="input-group">
+        <label>Number of Vehicles</label>
+        <div class="counter">
+          <button class="counter-btn" onclick="changeCount(-1)">−</button>
+          <div class="counter-val" id="vehicle-count">1</div>
+          <button class="counter-btn" onclick="changeCount(1)">+</button>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Duration: <strong id="dur-val">2</strong> hour(s)</label>
+        <div class="duration-input">
+          <input type="range" min="1" max="12" value="2" id="dur-range" oninput="updateDuration(this.value)">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Selected Slots</label>
+        <div class="selected-slots-list" id="selected-slots-display">
+          <span style="color:var(--muted);font-size:.8rem;">Click slots on the grid →</span>
+        </div>
+      </div>
+      <div class="price-calc" id="price-calc">
+        <div class="price-row"><span>Base rate</span><span id="pc-base">₹20/hr</span></div>
+        <div class="price-row"><span>Vehicles × Duration</span><span id="pc-vd">1 × 2hr</span></div>
+        <div class="price-row" id="pc-surge-row" style="display:none;"><span>Peak surge <span class="surge-badge">+25%</span></span><span id="pc-surge">+₹0</span></div>
+        <div class="price-row"><span>Total</span><span id="pc-total" style="color:var(--accent)">₹40</span></div>
+      </div>
+      <div id="surge-info" style="display:none;padding:8px 12px;background:rgba(255,107,53,.08);border-radius:8px;font-size:.78rem;color:var(--accent2);margin-bottom:12px;">
+        🔥 Peak hours (6PM–10PM) — +25% surge applied
+      </div>
+      <button class="btn btn-primary btn-full" onclick="proceedToPayment()">Continue to Payment →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PAYMENT PAGE ============ -->
+<div class="page" id="page-payment">
+  <div class="payment-wrap">
+    <div class="back-btn" onclick="showPage('detail')" style="display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:.85rem;cursor:pointer;margin-bottom:16px;">← Back</div>
+    <h2>💳 Payment</h2>
+    <div class="booking-summary">
+      <h3>Booking Summary</h3>
+      <div class="summary-row"><span class="label">Mall</span><span class="value">Phoenix Marketcity, BLR</span></div>
+      <div class="summary-row"><span class="label">Zone</span><span class="value" id="pay-zone">Basement 1</span></div>
+      <div class="summary-row"><span class="label">Slot(s)</span><span class="value" id="pay-slots">A1, A2</span></div>
+      <div class="summary-row"><span class="label">Vehicle</span><span class="value" id="pay-vehicle">Car × 1</span></div>
+      <div class="summary-row"><span class="label">Duration</span><span class="value" id="pay-duration">2 hours</span></div>
+      <div class="summary-row"><span class="label">Start Time</span><span class="value" id="pay-start">--</span></div>
+    </div>
+    <div class="total-bar">
+      <div><div class="total-label">Total Payable</div><div style="font-size:.75rem;color:var(--accent);margin-top:2px;" id="pay-breakdown">₹50 × 1 × 2hr</div></div>
+      <div class="total-amount" id="pay-total">₹100</div>
+    </div>
+    <div class="payment-methods">
+      <h3>Payment Method</h3>
+      <div class="pay-method active" onclick="selectPayMethod(this,'upi')">
+        <div class="pm-icon" style="background:rgba(0,229,160,.1);">📱</div>
+        <div class="pm-info"><h4>UPI</h4><p>GPay, PhonePe, Paytm, BHIM</p></div>
+        <div class="pm-radio"></div>
+      </div>
+      <div id="upi-apps">
+        <div class="upi-apps">
+          <div class="upi-app" onclick="selectUPI('GPay')"><div class="app-icon">🟢</div>GPay</div>
+          <div class="upi-app" onclick="selectUPI('PhonePe')"><div class="app-icon">🟣</div>PhonePe</div>
+          <div class="upi-app" onclick="selectUPI('Paytm')"><div class="app-icon">🔵</div>Paytm</div>
+          <div class="upi-app" onclick="selectUPI('BHIM')"><div class="app-icon">🇮🇳</div>BHIM</div>
+        </div>
+      </div>
+      <div class="pay-method" onclick="selectPayMethod(this,'card')">
+        <div class="pm-icon" style="background:rgba(79,142,247,.1);">💳</div>
+        <div class="pm-info"><h4>Debit / Credit Card</h4><p>Visa, Mastercard, RuPay</p></div>
+        <div class="pm-radio"></div>
+      </div>
+      <div id="card-form" style="display:none;" class="card-form">
+        <div class="input-group"><label>Card Number</label><input type="text" placeholder="4111 1111 1111 1111" maxlength="19" oninput="formatCard(this)"></div>
+        <div class="grid-2">
+          <div class="input-group"><label>Expiry</label><input type="text" placeholder="MM/YY" maxlength="5"></div>
+          <div class="input-group"><label>CVV</label><input type="password" placeholder="•••" maxlength="3"></div>
+        </div>
+        <div class="input-group"><label>Name on Card</label><input type="text" placeholder="RAHUL SHARMA"></div>
+      </div>
+      <div class="pay-method" onclick="selectPayMethod(this,'wallet')">
+        <div class="pm-icon" style="background:rgba(255,107,53,.1);">👛</div>
+        <div class="pm-info"><h4>Wallet</h4><p>ParkEase Wallet Balance: ₹250</p></div>
+        <div class="pm-radio"></div>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="processPayment()">Pay Now 🔒</button>
+    <p style="text-align:center;font-size:.75rem;color:var(--muted);margin-top:10px;">🔒 Secured by Razorpay · 256-bit SSL Encryption</p>
+  </div>
+</div>
+
+<!-- ============ CONFIRMATION PAGE ============ -->
+<div class="page" id="page-confirm">
+  <div class="confirm-wrap">
+    <div class="confirm-icon">✅</div>
+    <h2>Booking Confirmed!</h2>
+    <p>Your parking slot is reserved. Show this at the entry gate.</p>
+    <div class="booking-id" id="conf-booking-id">PX-BLR-000000</div>
+    <div class="timer-box">
+      <h4>⏳ Time Remaining</h4>
+      <div class="timer-display" id="timer-display">02:00:00</div>
+    </div>
+    <div class="confirm-details">
+      <div class="confirm-row"><span class="cl">Mall</span><span>Phoenix Marketcity, BLR</span></div>
+      <div class="confirm-row"><span class="cl">Zone</span><span id="conf-zone">Basement 1</span></div>
+      <div class="confirm-row"><span class="cl">Slot(s)</span><span id="conf-slots">A1, A2</span></div>
+      <div class="confirm-row"><span class="cl">Vehicle</span><span id="conf-vehicle">Car × 1</span></div>
+      <div class="confirm-row"><span class="cl">Duration</span><span id="conf-duration">2 hours</span></div>
+      <div class="confirm-row"><span class="cl">Amount Paid</span><span id="conf-amount" style="color:var(--accent);font-weight:700;">₹100</span></div>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-secondary btn-full" onclick="navigateToMall()">🗺️ Navigate</button>
+      <button class="btn btn-primary btn-full" onclick="showPage('dashboard')">My Bookings →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DASHBOARD PAGE ============ -->
+<div class="page" id="page-dashboard">
+  <div class="dash-wrap">
+    <div class="dash-header">
+      <h2 id="dash-greeting">Good evening, Rahul 👋</h2>
+      <p>Manage your parking bookings</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-val" style="color:var(--accent);" id="stat-active">1</div>
+        <div class="stat-label">Active Bookings</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" style="color:var(--accent3);" id="stat-total">3</div>
+        <div class="stat-label">Total Bookings</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" style="color:var(--accent2);" id="stat-spent">₹540</div>
+        <div class="stat-label">Total Spent</div>
+      </div>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this,'active')">Active</div>
+      <div class="tab" onclick="switchTab(this,'past')">Past Bookings</div>
+    </div>
+    <div id="booking-list-active" class="booking-list">
+      <div class="booking-item">
+        <div class="bi-icon">🚗</div>
+        <div class="bi-info">
+          <h4>Basement 1 — Slot A3</h4>
+          <p>Phoenix Marketcity · Car · 2 hours</p>
+        </div>
+        <div class="bi-right">
+          <div class="bi-price" style="color:var(--accent)">Active</div>
+          <div class="bi-time" id="dash-timer">01:47 left</div>
+          <div style="display:flex;gap:6px;margin-top:6px;">
+            <button class="btn btn-sm btn-secondary" onclick="extendBooking()">Extend</button>
+            <button class="btn btn-sm btn-danger" onclick="cancelBooking()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="booking-list-past" class="booking-list" style="display:none;">
+      <div class="booking-item">
+        <div class="bi-icon">🏍️</div>
+        <div class="bi-info">
+          <h4>Open Parking — Slot B7</h4>
+          <p>Phoenix Marketcity · Bike · 1 hour</p>
+        </div>
+        <div class="bi-right">
+          <div class="bi-price">₹20</div>
+          <div class="bi-time">Mar 25, 2026</div>
+          <div class="badge badge-green" style="margin-top:6px;">Completed</div>
+        </div>
+      </div>
+      <div class="booking-item">
+        <div class="bi-icon">🚗</div>
+        <div class="bi-info">
+          <h4>Basement 2 — Slot C2, C3</h4>
+          <p>Phoenix Marketcity · Car × 2 · 3 hours</p>
+        </div>
+        <div class="bi-right">
+          <div class="bi-price">₹375</div>
+          <div class="bi-time">Mar 20, 2026</div>
+          <div class="badge badge-green" style="margin-top:6px;">Completed</div>
+        </div>
+      </div>
+      <div class="booking-item">
+        <div class="bi-icon">⚡</div>
+        <div class="bi-info">
+          <h4>Basement 2 — EV Slot E1</h4>
+          <p>Phoenix Marketcity · EV · 4 hours</p>
+        </div>
+        <div class="bi-right">
+          <div class="bi-price">₹160</div>
+          <div class="bi-time">Mar 10, 2026</div>
+          <div class="badge badge-red" style="margin-top:6px;">Cancelled</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HELP PAGE ============ -->
+<div class="page" id="page-help">
+  <div class="help-wrap">
+    <div class="help-hero">
+      <h2>🆘 Help & Support</h2>
+      <p>Phoenix Marketcity Parking · We're here to help you 24/7</p>
+      <button class="emergency-btn" onclick="emergencyAlert()">🚨 Need Immediate Assistance?</button>
+    </div>
+    <div class="help-grid">
+      <div class="help-card">
+        <h3>📞 Contact Us</h3>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--surface2);border-radius:10px;">
+            <span style="font-size:1.3rem;">📱</span>
+            <div><div style="font-size:.85rem;font-weight:600;">Helpline</div><div style="font-size:.78rem;color:var(--accent);">+91 98765 43210</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--surface2);border-radius:10px;">
+            <span style="font-size:1.3rem;">📧</span>
+            <div><div style="font-size:.85rem;font-weight:600;">Email</div><div style="font-size:.78rem;color:var(--accent);">support@parkease.in</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--surface2);border-radius:10px;">
+            <span style="font-size:1.3rem;">💬</span>
+            <div><div style="font-size:.85rem;font-weight:600;">WhatsApp</div><div style="font-size:.78rem;color:var(--accent);">+91 98765 43210</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="help-card">
+        <h3>⚠️ Report an Issue</h3>
+        <div class="report-btns">
+          <button class="report-btn" onclick="reportIssue('slot-occupied')">🚫 Slot already occupied</button>
+          <button class="report-btn" onclick="reportIssue('payment-failed')">💳 Payment failed but deducted</button>
+          <button class="report-btn" onclick="reportIssue('parking-full')">🅿️ Parking full but shown available</button>
+          <button class="report-btn" onclick="reportIssue('entry-issue')">🚪 Unable to enter / exit</button>
+          <button class="report-btn" onclick="reportIssue('other')">📝 Other issue</button>
+        </div>
+      </div>
+    </div>
+    <div class="help-card" style="margin-bottom:14px;">
+      <h3>📋 FAQ</h3>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">How do I cancel my booking? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Go to Dashboard → Active Bookings → Cancel. Refunds are processed within 3–5 business days to your original payment method. Cancellations within 30 minutes of booking time are non-refundable.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">What is the refund process? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Refunds are issued to the original payment method. UPI refunds take 1–2 days, card refunds take 3–5 days, and wallet refunds are instant. For payment failures, auto-refund is initiated within 24 hours.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Can I extend my parking duration? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Yes! Go to Dashboard → Active Bookings → Extend. You can extend in 1-hour increments. Extension charges are applied at the current rate (including peak surge if applicable).</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">How does peak pricing work? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Peak pricing applies between 6PM and 10PM daily, adding a 25% surge to base rates. Bike: ₹25/hr, Car: ₹62.50/hr, EV: ₹50/hr during peak hours.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">What happens if I overstay? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">You'll receive a push notification 10 minutes before expiry. Overstay charges are billed at the hourly rate automatically. You can pay at the exit gate or extend via the app.</div>
+      </div>
+    </div>
+    <div class="help-card">
+      <h3>✉️ Send a Message</h3>
+      <div class="input-group" style="margin-top:8px;"><label>Your Issue</label><textarea style="width:100%;padding:12px;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-family:'DM Sans';resize:vertical;min-height:80px;outline:none;" placeholder="Describe your issue in detail..."></textarea></div>
+      <button class="btn btn-primary" onclick="sendMsg()">Send Message →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================== STATE ==================
+let currentUser = null;
+let users = JSON.parse(localStorage.getItem('pe_users') || '[]');
+let bookings = JSON.parse(localStorage.getItem('pe_bookings') || '[]');
+let timerInterval = null;
+let dashTimerInterval = null;
+let selectedSlots = [];
+let vehicleType = 'bike';
+let vehicleCount = 1;
+let duration = 2;
+let currentZone = 'B1';
+let selectedPayMethod = 'upi';
+let confirmTimer = null;
+let timeLeft = 0;
+
+// ================== INIT ==================
+window.onload = function() {
+  const saved = localStorage.getItem('pe_session');
+  if (saved) {
+    currentUser = JSON.parse(saved);
+    initLoggedIn();
+    showPage('home');
+  }
+  checkPeakHours();
+};
+
+function checkPeakHours() {
+  const h = new Date().getHours();
+  const isPeak = h >= 18 && h < 22;
+  document.getElementById('surge-info').style.display = isPeak ? 'block' : 'none';
+  document.getElementById('pc-surge-row').style.display = isPeak ? 'flex' : 'none';
+  return isPeak;
+}
+
+// ================== PAGE ROUTING ==================
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  const showNav = !['login','signup'].includes(name);
+  document.getElementById('main-nav').style.display = showNav ? 'flex' : 'none';
+  if (name === 'dashboard') updateDash();
+  if (name === 'detail') initSlotGrid();
+  window.scrollTo(0,0);
+}
+
+// ================== AUTH ==================
+function validateField(el, type) {
+  const v = el.value.trim();
+  let msg = '';
+  if (type === 'name') { if (v.length < 3) msg = 'Name must be at least 3 characters'; }
+  else if (type === 'username') { if (!/^[a-zA-Z0-9_]{3,}$/.test(v)) msg = 'Username: letters, numbers, underscore only'; }
+  else if (type === 'phone') { if (!/^(\+91[\s-]?)?[6-9]\d{9}$/.test(v.replace(/\s/g,''))) msg = 'Enter valid Indian phone number'; }
+  else if (type === 'email') { if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(v)) msg = 'Use a valid Gmail address (@gmail.com)'; }
+  else if (type === 'cpass') { if (v !== document.getElementById('su-pass').value) msg = 'Passwords do not match'; }
+  const errEl = document.getElementById('err-'+type);
+  if (errEl) errEl.textContent = msg;
+  el.classList.toggle('error', msg.length > 0);
+  return msg === '';
+}
+
+function checkStrength() {
+  const pass = document.getElementById('su-pass').value;
+  let score = 0;
+  if (pass.length >= 8) score++;
+  if (/[A-Z]/.test(pass)) score++;
+  if (/[0-9]/.test(pass)) score++;
+  if (/[^A-Za-z0-9]/.test(pass)) score++;
+  const fill = document.getElementById('strength-fill');
+  const colors = ['var(--danger)','var(--warning)','#7ec8e3','var(--accent)'];
+  const widths = ['25%','50%','75%','100%'];
+  fill.style.width = pass.length ? widths[score-1] || '10%' : '0';
+  fill.style.background = colors[score-1] || 'var(--danger)';
+}
+
+function doSignup() {
+  const fields = ['name','username','phone','email'];
+  let valid = fields.every(f => {
+    const el = document.getElementById('su-'+f);
+    return el && validateField(el, f);
+  });
+  const pass = document.getElementById('su-pass').value;
+  const cpass = document.getElementById('su-cpass').value;
+  if (pass.length < 8) { document.getElementById('err-pass').textContent = 'Password must be 8+ characters'; valid = false; }
+  if (pass !== cpass) { document.getElementById('err-cpass').textContent = 'Passwords do not match'; valid = false; }
+  if (!valid) return;
+  const user = { id: Date.now(), name: document.getElementById('su-name').value, username: document.getElementById('su-username').value, email: document.getElementById('su-email').value, phone: document.getElementById('su-phone').value, password: pass };
+  users.push(user);
+  localStorage.setItem('pe_users', JSON.stringify(users));
+  localStorage.setItem('pe_session', JSON.stringify(user));
+  currentUser = user;
+  showToast('✅ Account created! Welcome to ParkEase', 'success');
+  initLoggedIn();
+  showPage('home');
+}
+
+function doLogin() {
+  const id = document.getElementById('li-email').value.trim();
+  const pass = document.getElementById('li-pass').value;
+  const user = users.find(u => (u.email === id || u.username === id) && u.password === pass);
+  if (user) { loginSuccess(user); } else { showToast('❌ Invalid credentials', 'error'); }
+}
+
+function demoLogin() {
+  const demo = { id: 1, name: 'Rahul Sharma', username: 'rahul_s', email: 'rahul@gmail.com', phone: '+91 98765 43210' };
+  loginSuccess(demo);
+}
+
+function loginSuccess(user) {
+  currentUser = user;
+  localStorage.setItem('pe_session', JSON.stringify(user));
+  initLoggedIn();
+  showToast('👋 Welcome back, ' + user.name.split(' ')[0] + '!', 'success');
+  showPage('home');
+}
+
+function initLoggedIn() {
+  const initials = currentUser.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('nav-avatar').textContent = initials;
+}
+
+function logout() {
+  localStorage.removeItem('pe_session');
+  currentUser = null;
+  showPage('login');
+  showToast('👋 Logged out successfully', 'success');
+}
+
+function showForgotModal() {
+  showModal('<h3>🔑 Reset Password</h3><p>Enter your email and we\'ll send a reset link.</p><div class="input-group"><label>Gmail Address</label><input type="email" placeholder="rahul@gmail.com" id="forgot-email"></div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="sendReset()">Send Reset Link →</button></div>');
+}
+
+function sendReset() {
+  showToast('📧 Reset link sent to your email!', 'success');
+  closeModal();
+}
+
+// ================== ZONE SELECTION ==================
+const zoneData = {
+  'B1': { name: 'Basement 1 — B1', sub: 'Phoenix Marketcity · Covered · Car + Bike', slots: 175, slotsLeft: 12 },
+  'B2': { name: 'Basement 2 — B2', sub: 'Phoenix Marketcity · Covered · Car + EV', slots: 95, slotsLeft: 5 },
+  'OP': { name: 'Open Parking — OA', sub: 'Phoenix Marketcity · Open-air · Car + Bike', slots: 230, slotsLeft: 34 }
+};
+
+function selectZone(zone) {
+  currentZone = zone;
+  const z = zoneData[zone];
+  document.getElementById('detail-title').textContent = z.name;
+  document.getElementById('detail-sub').textContent = z.sub;
+  document.getElementById('slots-left-count').textContent = z.slotsLeft;
+  selectedSlots = [];
+  showPage('detail');
+}
+
+// ================== SLOT GRID ==================
+function initSlotGrid() {
+  const grid = document.getElementById('slot-grid');
+  grid.innerHTML = '';
+  const rows = ['A','B','C','D','E','F','G','H','I','J'];
+  const statuses = ['available','available','available','booked','available','reserved','available','available','booked','available'];
+  const evSlots = ['H1','H2','H3','H4','H5','H6','H7','H8','H9','H10'];
+  rows.forEach(row => {
+    for (let i=1;i<=10;i++) {
+      const id = row+i;
+      const isEV = evSlots.includes(id);
+      let status = statuses[Math.floor(Math.random()*10)];
+      if (isEV) status = Math.random() > 0.4 ? 'ev' : 'booked';
+      if (Math.random() < 0.25) status = 'booked';
+      if (Math.random() < 0.08) status = 'reserved';
+      const slot = document.createElement('div');
+      slot.className = 'slot ' + status;
+      slot.textContent = id;
+      slot.dataset.id = id;
+      slot.dataset.status = status;
+      if (status === 'available' || status === 'ev') {
+        slot.onclick = () => toggleSlot(slot, id);
+      }
+      grid.appendChild(slot);
+    }
+  });
+  updatePriceCalc();
+}
+
+function toggleSlot(el, id) {
+  const idx = selectedSlots.indexOf(id);
+  if (idx > -1) {
+    selectedSlots.splice(idx,1);
+    el.classList.remove('selected');
+    el.classList.add(el.dataset.status);
+  } else {
+    if (selectedSlots.length >= vehicleCount) {
+      const oldId = selectedSlots.shift();
+      const oldEl = document.querySelector(`.slot[data-id="${oldId}"]`);
+      if (oldEl) { oldEl.classList.remove('selected'); oldEl.classList.add(oldEl.dataset.status); }
+    }
+    selectedSlots.push(id);
+    el.classList.add('selected');
+  }
+  updateSelectedDisplay();
+  updatePriceCalc();
+}
+
+function updateSelectedDisplay() {
+  const d = document.getElementById('selected-slots-display');
+  if (!selectedSlots.length) { d.innerHTML = '<span style="color:var(--muted);font-size:.8rem;">Click slots on the grid →</span>'; return; }
+  d.innerHTML = selectedSlots.map(s => `<div class="sel-slot-tag">${s} <span class="rm" onclick="removeSlot('${s}')">×</span></div>`).join('');
+}
+
+function removeSlot(id) {
+  selectedSlots = selectedSlots.filter(s => s !== id);
+  const el = document.querySelector(`.slot[data-id="${id}"]`);
+  if (el) { el.classList.remove('selected'); el.classList.add(el.dataset.status); }
+  updateSelectedDisplay();
+  updatePriceCalc();
+}
+
+// ================== VEHICLE / PRICE ==================
+function setVehicle(type, el) {
+  vehicleType = type;
+  document.querySelectorAll('.v-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  updatePriceCalc();
+}
+
+function changeCount(delta) {
+  vehicleCount = Math.max(1, Math.min(5, vehicleCount + delta));
+  document.getElementById('vehicle-count').textContent = vehicleCount;
+  updatePriceCalc();
+}
+
+function updateDuration(val) {
+  duration = parseInt(val);
+  document.getElementById('dur-val').textContent = duration;
+  updatePriceCalc();
+}
+
+const rates = { bike: 20, car: 50, ev: 40 };
+const vehicleLabels = { bike: '🏍️ Bike', car: '🚗 Car', ev: '⚡ EV' };
+
+function updatePriceCalc() {
+  const rate = rates[vehicleType];
+  const isPeak = checkPeakHours();
+  const base = rate * vehicleCount * duration;
+  const surge = isPeak ? Math.round(base * 0.25) : 0;
+  const total = base + surge;
+  document.getElementById('pc-base').textContent = '₹' + rate + '/hr';
+  document.getElementById('pc-vd').textContent = vehicleCount + ' × ' + duration + 'hr';
+  document.getElementById('pc-surge').textContent = '+₹' + surge;
+  document.getElementById('pc-total').textContent = '₹' + total;
+}
+
+function getPriceTotal() {
+  const rate = rates[vehicleType];
+  const isPeak = checkPeakHours();
+  const base = rate * vehicleCount * duration;
+  const surge = isPeak ? Math.round(base * 0.25) : 0;
+  return base + surge;
+}
+
+// ================== PAYMENT FLOW ==================
+function proceedToPayment() {
+  if (!selectedSlots.length) {
+    showToast('⚠️ Please select at least one slot', 'error');
+    return;
+  }
+  const total = getPriceTotal();
+  const now = new Date();
+  document.getElementById('pay-zone').textContent = zoneData[currentZone].name;
+  document.getElementById('pay-slots').textContent = selectedSlots.join(', ');
+  document.getElementById('pay-vehicle').textContent = vehicleLabels[vehicleType] + ' × ' + vehicleCount;
+  document.getElementById('pay-duration').textContent = duration + ' hour' + (duration > 1 ? 's' : '');
+  document.getElementById('pay-start').textContent = now.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'});
+  document.getElementById('pay-total').textContent = '₹' + total;
+  document.getElementById('pay-breakdown').textContent = '₹' + rates[vehicleType] + ' × ' + vehicleCount + ' × ' + duration + 'hr';
+  showPage('payment');
+}
+
+function selectPayMethod(el, method) {
+  document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('active'));
+  el.classList.add('active');
+  selectedPayMethod = method;
+  document.getElementById('card-form').style.display = method === 'card' ? 'block' : 'none';
+  document.getElementById('upi-apps').style.display = method === 'upi' ? 'block' : 'none';
+}
+
+function selectUPI(app) {
+  showToast('📱 Opening ' + app + '...', 'success');
+}
+
+function formatCard(el) {
+  let v = el.value.replace(/\D/g,'');
+  v = v.replace(/(.{4})/g,'$1 ').trim();
+  el.value = v;
+}
+
+function processPayment() {
+  showToast('⏳ Processing payment...', 'success');
+  setTimeout(() => {
+    const total = getPriceTotal();
+    const bookingId = 'PX-BLR-' + Math.random().toString(36).substr(2,6).toUpperCase();
+    const booking = { id: bookingId, zone: currentZone, zoneName: zoneData[currentZone].name, slots: [...selectedSlots], vehicle: vehicleType, vehicleLabel: vehicleLabels[vehicleType], count: vehicleCount, duration, total, status: 'active', time: Date.now() };
+    bookings.unshift(booking);
+    localStorage.setItem('pe_bookings', JSON.stringify(bookings));
+    document.getElementById('conf-booking-id').textContent = bookingId;
+    document.getElementById('conf-zone').textContent = zoneData[currentZone].name;
+    document.getElementById('conf-slots').textContent = selectedSlots.join(', ');
+    document.getElementById('conf-vehicle').textContent = vehicleLabels[vehicleType] + ' × ' + vehicleCount;
+    document.getElementById('conf-duration').textContent = duration + ' hour' + (duration > 1 ? 's' : '');
+    document.getElementById('conf-amount').textContent = '₹' + total;
+    startConfirmTimer(duration * 3600);
+    showPage('confirm');
+    showToast('✅ Payment successful! Booking confirmed.', 'success');
+  }, 1800);
+}
+
+function startConfirmTimer(seconds) {
+  if (confirmTimer) clearInterval(confirmTimer);
+  timeLeft = seconds;
+  updateTimerDisplay();
+  confirmTimer = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) clearInterval(confirmTimer);
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const h = Math.floor(timeLeft/3600);
+  const m = Math.floor((timeLeft%3600)/60);
+  const s = timeLeft % 60;
+  document.getElementById('timer-display').textContent =
+    String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+// ================== DASHBOARD ==================
+function updateDash() {
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  const name = currentUser ? currentUser.name.split(' ')[0] : 'User';
+  document.getElementById('dash-greeting').textContent = greeting + ', ' + name + ' 👋';
+  const active = bookings.filter(b => b.status === 'active').length;
+  document.getElementById('stat-active').textContent = active;
+  document.getElementById('stat-total').textContent = bookings.length + 3;
+  const spent = bookings.reduce((a,b) => a + b.total, 0) + 540;
+  document.getElementById('stat-spent').textContent = '₹' + spent;
+}
+
+function switchTab(el, tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('booking-list-active').style.display = tab === 'active' ? 'flex' : 'none';
+  document.getElementById('booking-list-past').style.display = tab === 'past' ? 'flex' : 'none';
+}
+
+function extendBooking() {
+  showModal('<h3>⏰ Extend Booking</h3><p>Add more time to your current booking slot A3 in Basement 1.</p><div class="input-group"><label>Additional Hours</label><select id="ext-hours"><option>1 hour — ₹50</option><option>2 hours — ₹100</option><option>3 hours — ₹150</option></select></div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="confirmExtend()">Extend & Pay →</button></div>');
+}
+
+function confirmExtend() {
+  showToast('⏰ Booking extended successfully!', 'success');
+  closeModal();
+}
+
+function cancelBooking() {
+  showModal('<h3>❌ Cancel Booking</h3><p>Are you sure you want to cancel? Refund will be processed in 3–5 business days.</p><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Keep Booking</button><button class="btn btn-danger" onclick="confirmCancel()">Yes, Cancel</button></div>');
+}
+
+function confirmCancel() {
+  showToast('✅ Booking cancelled. Refund initiated.', 'success');
+  closeModal();
+}
+
+// ================== HELP ==================
+function toggleFaq(el) { el.classList.toggle('open'); }
+
+function emergencyAlert() {
+  showToast('🚨 Emergency team alerted! Help is on the way.', 'error');
+  showModal('<h3>🚨 Emergency Assistance</h3><p>Our security team has been notified. Please stay at your location. Help is on the way.</p><p style="color:var(--accent);font-weight:600;">Estimated response: 3–5 minutes</p><p>Or call directly: <strong style="color:var(--accent);">+91 98765 43210</strong></p><div class="modal-footer"><button class="btn btn-primary btn-full" onclick="closeModal()">OK, Got It</button></div>');
+}
+
+function reportIssue(type) {
+  const labels = { 'slot-occupied': 'Slot already occupied', 'payment-failed': 'Payment failed but deducted', 'parking-full': 'Parking full but shown available', 'entry-issue': 'Unable to enter/exit', 'other': 'Other issue' };
+  showToast('📝 Issue reported: ' + labels[type] + '. We\'ll respond within 30 min.', 'success');
+}
+
+function sendMsg() { showToast('✉️ Message sent! We\'ll respond within 2 hours.', 'success'); }
+
+function navigateToMall() {
+  showToast('🗺️ Opening Google Maps...', 'success');
+  window.open('https://maps.google.com/?q=Phoenix+Marketcity+Bengaluru', '_blank');
+}
+
+// ================== FILTER ==================
+function setFilter(el, type) {
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ================== MODAL / TOAST ==================
+function showModal(html) {
+  document.getElementById('modal-content').innerHTML = html;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+
+let toastTimeout;
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.innerHTML = (type === 'success' ? '✅ ' : '❌ ') + msg;
+  t.className = 'toast show ' + type;
+  if (toastTimeout) clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
