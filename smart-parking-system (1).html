@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ParkSmart – Phoenix Marketcity, Bengaluru</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #080b12;
+  --bg2: #0d1220;
+  --bg3: #121826;
+  --surface: #161d2e;
+  --surface2: #1c2540;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #e8edf5;
+  --text2: #8b96b0;
+  --text3: #5a6480;
+  --accent: #00d4ff;
+  --accent2: #0099bb;
+  --green: #00e676;
+  --green2: #00c853;
+  --red: #ff4757;
+  --red2: #c0392b;
+  --yellow: #ffd60a;
+  --yellow2: #e6b800;
+  --blue: #448aff;
+  --blue2: #1565c0;
+  --orange: #ff6b35;
+  --purple: #b47aff;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:2px}
+
+/* UTILITY */
+.hidden{display:none!important}
+.flex{display:flex}
+.flex-col{display:flex;flex-direction:column}
+.items-center{align-items:center}
+.justify-between{justify-content:space-between}
+.justify-center{justify-content:center}
+.gap-1{gap:4px}.gap-2{gap:8px}.gap-3{gap:12px}.gap-4{gap:16px}.gap-6{gap:24px}
+.w-full{width:100%}
+.text-sm{font-size:13px}
+.text-xs{font-size:11px}
+.font-mono{font-family:var(--font-mono)}
+.badge{display:inline-flex;align-items:center;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.5px}
+.badge-green{background:rgba(0,230,118,.15);color:var(--green)}
+.badge-red{background:rgba(255,71,87,.15);color:var(--red)}
+.badge-yellow{background:rgba(255,214,10,.15);color:var(--yellow)}
+.badge-blue{background:rgba(68,138,255,.15);color:var(--blue)}
+.badge-orange{background:rgba(255,107,53,.15);color:var(--orange)}
+.badge-accent{background:rgba(0,212,255,.15);color:var(--accent)}
+
+/* APP SHELL */
+#app{min-height:100vh}
+
+/* NAV */
+.topnav{position:fixed;top:0;left:0;right:0;z-index:1000;height:60px;background:rgba(8,11,18,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px}
+.topnav .logo{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--accent);letter-spacing:-0.5px;cursor:pointer}
+.topnav .logo span{color:var(--text)}
+.topnav nav{display:flex;gap:4px;margin-left:auto}
+.topnav nav .nav-btn{background:none;border:none;color:var(--text2);cursor:pointer;padding:8px 14px;border-radius:8px;font-size:13px;font-family:var(--font-body);transition:all .2s}
+.topnav nav .nav-btn:hover,.topnav nav .nav-btn.active{background:var(--surface);color:var(--accent)}
+.topnav .user-badge{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--surface);border-radius:8px;font-size:13px;cursor:pointer;border:1px solid var(--border2)}
+.topnav .mode-toggle{padding:6px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text2);cursor:pointer;font-size:12px;font-family:var(--font-body)}
+
+/* PAGE WRAPPER */
+.page{padding-top:60px;min-height:100vh;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{padding:60px 24px 40px;max-width:1100px;margin:0 auto;text-align:center}
+.hero-eyebrow{font-size:11px;letter-spacing:3px;color:var(--accent);font-weight:600;margin-bottom:16px;text-transform:uppercase}
+.hero h1{font-family:var(--font-display);font-size:clamp(32px,5vw,56px);font-weight:800;line-height:1.1;margin-bottom:16px}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--text2);font-size:16px;max-width:560px;margin:0 auto 32px}
+
+/* ALERT BANNER */
+.alert-bar{background:linear-gradient(135deg,rgba(255,214,10,.1),rgba(255,107,53,.1));border:1px solid rgba(255,214,10,.2);border-radius:12px;padding:12px 20px;display:flex;align-items:center;gap:12px;margin:0 24px 24px;max-width:1052px;margin-left:auto;margin-right:auto}
+.alert-bar .alert-icon{font-size:20px}
+.alert-bar .alert-text{font-size:13px;color:var(--text)}
+.alert-bar .alert-text strong{color:var(--yellow)}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;padding:0 24px;max-width:1100px;margin:0 auto 32px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;transition:border-color .2s}
+.stat-card:hover{border-color:var(--border2)}
+.stat-card .val{font-family:var(--font-display);font-size:32px;font-weight:800;line-height:1}
+.stat-card .lbl{font-size:12px;color:var(--text2);margin-top:4px}
+.stat-card.green .val{color:var(--green)}
+.stat-card.red .val{color:var(--red)}
+.stat-card.accent .val{color:var(--accent)}
+.stat-card.yellow .val{color:var(--yellow)}
+
+/* ZONE CARDS */
+.zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;padding:0 24px;max-width:1100px;margin:0 auto 32px}
+.zone-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.zone-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--purple))}
+.zone-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,212,255,.1)}
+.zone-card .zone-name{font-family:var(--font-display);font-size:18px;font-weight:700;margin-bottom:4px}
+.zone-card .zone-sub{color:var(--text2);font-size:13px;margin-bottom:16px}
+.zone-card .zone-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.zone-stat{text-align:center;background:var(--bg3);border-radius:8px;padding:8px}
+.zone-stat .zs-val{font-family:var(--font-mono);font-size:18px;font-weight:600}
+.zone-stat .zs-lbl{font-size:10px;color:var(--text3);margin-top:2px}
+.zone-card .zone-avail{margin-top:12px}
+.avail-bar{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-top:6px}
+.avail-fill{height:100%;border-radius:3px;background:var(--green);transition:width .5s ease}
+.avail-fill.warn{background:var(--yellow)}
+.avail-fill.danger{background:var(--red)}
+
+/* PRICING */
+.pricing-section{padding:0 24px;max-width:1100px;margin:0 auto 40px}
+.section-title{font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.section-title .tag{font-size:11px;font-weight:600;padding:3px 10px;background:rgba(0,212,255,.15);color:var(--accent);border-radius:20px}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.price-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center}
+.price-card .icon{font-size:28px;margin-bottom:8px}
+.price-card .type{font-weight:600;margin-bottom:4px}
+.price-card .rate{font-family:var(--font-mono);font-size:24px;color:var(--accent);font-weight:600}
+.price-card .surge{font-size:12px;color:var(--yellow);margin-top:4px}
+
+/* SLOT BOOKING */
+.booking-section{padding:0 24px;max-width:1100px;margin:0 auto}
+.booking-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.btn{padding:10px 20px;border-radius:10px;border:none;cursor:pointer;font-family:var(--font-body);font-size:14px;font-weight:500;transition:all .2s}
+.btn-primary{background:var(--accent);color:#000;font-weight:600}
+.btn-primary:hover{background:var(--accent2)}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border2)}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.btn-danger{background:rgba(255,71,87,.2);color:var(--red);border:1px solid rgba(255,71,87,.3)}
+.btn-sm{padding:6px 14px;font-size:12px}
+.btn-xs{padding:4px 10px;font-size:11px;border-radius:6px}
+
+/* SLOT GRID */
+.slot-grid-container{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
+.slot-legend{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)}
+.legend-dot{width:12px;height:12px;border-radius:3px}
+.ld-green{background:var(--green)}
+.ld-red{background:var(--red)}
+.ld-yellow{background:var(--yellow)}
+.ld-blue{background:var(--blue)}
+.ld-purple{background:var(--purple)}
+.slot-row-label{font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-bottom:8px}
+.slot-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.slot{width:40px;height:40px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--font-mono);cursor:pointer;transition:all .15s;border:2px solid transparent;position:relative;font-weight:600}
+.slot.available{background:rgba(0,230,118,.15);color:var(--green);border-color:rgba(0,230,118,.3)}
+.slot.available:hover{background:rgba(0,230,118,.3);transform:scale(1.1)}
+.slot.booked{background:rgba(255,71,87,.1);color:var(--red2);border-color:rgba(255,71,87,.2);cursor:not-allowed;opacity:.7}
+.slot.reserved{background:rgba(255,214,10,.1);color:var(--yellow);border-color:rgba(255,214,10,.3);cursor:not-allowed}
+.slot.ev{background:rgba(68,138,255,.15);color:var(--blue);border-color:rgba(68,138,255,.3)}
+.slot.selected{background:rgba(0,212,255,.25);color:var(--accent);border-color:var(--accent);transform:scale(1.1);box-shadow:0 0 12px rgba(0,212,255,.3)}
+.slot.locked{background:rgba(180,122,255,.1);color:var(--purple);border-color:rgba(180,122,255,.3);cursor:not-allowed}
+
+/* BOOKING FORM */
+.booking-form{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group label{font-size:12px;color:var(--text2);font-weight:500}
+.form-group input,.form-group select{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus{border-color:var(--accent)}
+.form-group select option{background:var(--bg2)}
+
+/* PAYMENT */
+.payment-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:480px}
+.price-breakdown{background:var(--bg3);border-radius:10px;padding:16px;margin:16px 0}
+.breakdown-row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px}
+.breakdown-row.total{border-top:1px solid var(--border);margin-top:6px;padding-top:12px;font-weight:700;color:var(--accent)}
+.payment-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.pay-method{background:var(--bg3);border:2px solid var(--border);border-radius:10px;padding:12px;text-align:center;cursor:pointer;transition:all .2s}
+.pay-method:hover,.pay-method.selected{border-color:var(--accent);background:rgba(0,212,255,.05)}
+.pay-method .pm-icon{font-size:20px;margin-bottom:4px}
+.pay-method .pm-name{font-size:12px;color:var(--text2)}
+.demo-label{font-size:11px;color:var(--orange);text-align:center;margin-bottom:12px;font-family:var(--font-mono)}
+
+/* AUTH */
+.auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.auth-card{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:40px;width:100%;max-width:420px}
+.auth-card h2{font-family:var(--font-display);font-size:28px;font-weight:800;margin-bottom:8px}
+.auth-card p{color:var(--text2);font-size:14px;margin-bottom:32px}
+.auth-tabs{display:flex;gap:4px;background:var(--bg3);padding:4px;border-radius:10px;margin-bottom:24px}
+.auth-tab{flex:1;padding:8px;text-align:center;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;color:var(--text2);background:none;border:none;font-family:var(--font-body)}
+.auth-tab.active{background:var(--surface2);color:var(--text)}
+
+/* CONFIRMATION */
+.confirm-card{background:var(--surface);border:1px solid var(--green);border-radius:20px;padding:32px;max-width:480px;text-align:center;margin:0 auto}
+.qr-sim{width:140px;height:140px;background:var(--bg);border:2px solid var(--border2);border-radius:12px;margin:16px auto;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.qr-inner{display:grid;grid-template-columns:repeat(8,12px);gap:3px}
+.qr-cell{width:12px;height:12px;border-radius:2px}
+.booking-id{font-family:var(--font-mono);font-size:18px;color:var(--accent);letter-spacing:2px;margin:12px 0}
+.timer-display{font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--green);text-align:center;margin:12px 0}
+.timer-display.warning{color:var(--yellow)}
+.timer-display.expired{color:var(--red);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* ADMIN DASHBOARD */
+.admin-layout{display:flex;min-height:calc(100vh - 60px)}
+.admin-sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);padding:16px;flex-shrink:0}
+.admin-main{flex:1;padding:24px;overflow:auto}
+.sidebar-section{margin-bottom:24px}
+.sidebar-label{font-size:10px;letter-spacing:2px;color:var(--text3);font-weight:600;text-transform:uppercase;margin-bottom:8px}
+.sidebar-btn{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;background:none;border:none;color:var(--text2);cursor:pointer;border-radius:8px;font-size:13px;font-family:var(--font-body);transition:all .2s;text-align:left}
+.sidebar-btn:hover,.sidebar-btn.active{background:var(--surface);color:var(--accent)}
+.sidebar-btn .sb-icon{font-size:16px;width:20px;text-align:center}
+
+/* DASHBOARD GRID */
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.dash-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px}
+.dash-card .dc-label{font-size:12px;color:var(--text2);margin-bottom:8px}
+.dash-card .dc-value{font-family:var(--font-display);font-size:32px;font-weight:800}
+.dash-card .dc-sub{font-size:12px;color:var(--text3);margin-top:4px}
+.dash-card .dc-change{font-size:12px;margin-top:6px}
+.dash-card .dc-change.up{color:var(--green)}
+.dash-card .dc-change.down{color:var(--red)}
+
+/* TABLES */
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th{padding:10px 14px;text-align:left;color:var(--text3);font-weight:500;font-size:11px;letter-spacing:.5px;border-bottom:1px solid var(--border);text-transform:uppercase}
+.data-table td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.data-table tr:hover td{background:rgba(255,255,255,.02)}
+.table-wrapper{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;overflow-x:auto}
+
+/* CHART SIM */
+.chart-bar-container{display:flex;align-items:flex-end;gap:6px;height:80px;padding:8px 0}
+.chart-bar{border-radius:4px 4px 0 0;flex:1;min-width:20px;background:linear-gradient(180deg,var(--accent),var(--accent2));opacity:.7;transition:opacity .2s;cursor:pointer;position:relative}
+.chart-bar:hover{opacity:1}
+.chart-bar .cb-label{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--text3);white-space:nowrap;font-family:var(--font-mono)}
+
+/* AI SUGGESTION */
+.ai-box{background:linear-gradient(135deg,rgba(0,212,255,.08),rgba(180,122,255,.08));border:1px solid rgba(0,212,255,.2);border-radius:14px;padding:20px;margin-bottom:24px}
+.ai-box .ai-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ai-box .ai-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:600}
+.ai-suggestion-text{font-size:14px;color:var(--text);line-height:1.6}
+.ai-suggestions{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:12px}
+.ai-sug{background:rgba(255,255,255,.04);border-radius:10px;padding:12px 14px;font-size:13px}
+.ai-sug .as-label{font-size:10px;color:var(--accent);margin-bottom:4px;font-weight:600}
+
+/* USER DASHBOARD */
+.booking-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px}
+.booking-card .bc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.booking-card .bc-id{font-family:var(--font-mono);font-size:13px;color:var(--accent)}
+.booking-card .bc-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;font-size:13px;color:var(--text2)}
+.booking-card .bc-actions{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:2000;padding:16px}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:32px;max-width:480px;width:100%;max-height:80vh;overflow:auto;animation:modalIn .2s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.modal h3{font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:16px}
+
+/* TOAST */
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:3000;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;font-size:13px;display:flex;align-items:center;gap:10px;min-width:240px;animation:toastIn .3s ease;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.toast.success{border-color:rgba(0,230,118,.3)}
+.toast.error{border-color:rgba(255,71,87,.3)}
+.toast.warning{border-color:rgba(255,214,10,.3)}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(20px)}}
+
+/* FIND MY CAR */
+.find-car-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:24px}
+.car-map{background:var(--bg3);border-radius:10px;padding:16px;position:relative;height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.car-map-grid{display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(5,1fr);gap:3px;width:100%;height:100%;position:absolute;inset:16px}
+.cgrid-cell{border-radius:3px;background:rgba(255,255,255,.04)}
+.car-marker{position:absolute;width:30px;height:30px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 0 0 6px rgba(0,212,255,.2);animation:carPulse 2s infinite}
+@keyframes carPulse{0%,100%{box-shadow:0 0 0 6px rgba(0,212,255,.2)}50%{box-shadow:0 0 0 12px rgba(0,212,255,.05)}}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .admin-sidebar{display:none}
+  .zones{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .dash-grid{grid-template-columns:1fr 1fr}
+}
+
+/* ENTRY ANIMATION */
+.animate-in{animation:fadeIn .4s ease both}
+.anim-delay-1{animation-delay:.1s}
+.anim-delay-2{animation-delay:.2s}
+.anim-delay-3{animation-delay:.3s}
+
+/* STATUS PULSE */
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);animation:livePulse 2s infinite;margin-right:6px}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+
+/* BOTTOM NAV (mobile) */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(8,11,18,.95);border-top:1px solid var(--border);padding:8px;z-index:999;grid-template-columns:repeat(5,1fr);gap:4px}
+@media(max-width:600px){.bottom-nav{display:grid}.topnav nav{display:none}.page{padding-bottom:70px}}
+.bnav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px;border-radius:8px;background:none;border:none;color:var(--text3);cursor:pointer;font-size:10px;font-family:var(--font-body)}
+.bnav-btn.active{color:var(--accent)}
+
+/* HELP */
+.help-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px;cursor:pointer;transition:all .2s}
+.help-card:hover{border-color:var(--accent)}
+.panic-btn{width:100%;padding:20px;background:linear-gradient(135deg,rgba(255,71,87,.2),rgba(192,57,43,.2));border:2px solid rgba(255,71,87,.4);border-radius:14px;color:var(--red);font-size:18px;font-weight:700;font-family:var(--font-display);cursor:pointer;transition:all .2s;letter-spacing:1px;margin-top:16px}
+.panic-btn:hover{background:rgba(255,71,87,.3);border-color:var(--red)}
+.panic-btn:active{transform:scale(.97)}
+
+/* SCAN SIM */
+.scan-box{background:var(--bg3);border:2px dashed var(--border2);border-radius:14px;padding:40px;text-align:center;cursor:pointer;transition:all .2s}
+.scan-box:hover,.scan-box.scanning{border-color:var(--accent);background:rgba(0,212,255,.04)}
+.scan-box .scan-frame{width:80px;height:80px;border:3px solid var(--accent);border-radius:8px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:36px;position:relative}
+.scan-frame::before,.scan-frame::after{content:'';position:absolute;width:16px;height:16px;border-color:var(--accent);border-style:solid}
+.scan-frame::before{top:-3px;left:-3px;border-width:3px 0 0 3px}
+.scan-frame::after{bottom:-3px;right:-3px;border-width:0 3px 3px 0}
+
+/* REVENUE CHART */
+.rev-chart{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px}
+
+/* FINE BANNER */
+.fine-banner{background:rgba(255,71,87,.1);border:1px solid rgba(255,71,87,.3);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.fine-banner .fb-icon{font-size:20px}
+.fine-banner .fb-text{font-size:13px;color:var(--text)}
+.fine-banner .fb-text strong{color:var(--red)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="toast-container" id="toastContainer"></div>
+<div class="bottom-nav" id="bottomNav">
+  <button class="bnav-btn active" id="bn-home" onclick="showPage('home')">🏠<span>Home</span></button>
+  <button class="bnav-btn" id="bn-book" onclick="showPage('booking')">🅿️<span>Book</span></button>
+  <button class="bnav-btn" id="bn-my" onclick="requireAuth('my-bookings')">📋<span>My Slots</span></button>
+  <button class="bnav-btn" id="bn-help" onclick="showPage('help')">🆘<span>Help</span></button>
+  <button class="bnav-btn" id="bn-admin" onclick="showPage('admin')">⚙️<span>Admin</span></button>
+</div>
+
+<script>
+// ==================== DATA LAYER ====================
+const STORAGE_KEY = 'parksmart_data';
+
+function getData() {
+  const d = localStorage.getItem(STORAGE_KEY);
+  if (!d) return initData();
+  return JSON.parse(d);
+}
+
+function saveData(d) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+}
+
+function initData() {
+  const zones = {
+    B1: { name:'Basement 1', total:200, slots:generateSlots('B1',200) },
+    B2: { name:'Basement 2', total:160, slots:generateSlots('B2',160) },
+    OA: { name:'Open Area', total:140, slots:generateSlots('OA',140) }
+  };
+  const d = {
+    zones,
+    users: [{ id:'admin', name:'Admin User', email:'admin@parksmart.in', password:'admin123', role:'admin', bookings:[] }],
+    bookings: [],
+    pricing: { bike:20, car:50, ev:40, peakMulti:1.25, surgeActive:false, peakHours:{start:18,end:22} },
+    alerts: [],
+    revenue: { today:12840, week:87200, total:504000 },
+    currentUser: null
+  };
+  saveData(d);
+  return d;
+}
+
+function generateSlots(zone, total) {
+  const slots = {};
+  const evIndices = new Set();
+  const reservedIndices = new Set();
+  const bookedPct = zone === 'B1' ? 0.45 : zone === 'B2' ? 0.38 : 0.3;
+
+  // Pick some EV spots
+  for(let i=0;i<Math.floor(total*0.1);i++) evIndices.add(Math.floor(Math.random()*total));
+  // Some reserved
+  for(let i=0;i<Math.floor(total*0.05);i++) reservedIndices.add(Math.floor(Math.random()*total));
+
+  for(let i=1;i<=total;i++){
+    const id = `${zone}-${String(i).padStart(3,'0')}`;
+    let state = 'available';
+    if(evIndices.has(i)) state = 'ev';
+    else if(reservedIndices.has(i)) state = 'reserved';
+    else if(Math.random() < bookedPct) state = 'booked';
+    slots[id] = { id, zone, num:i, state, vehicle:null, bookingId:null, lockedUntil:null };
+  }
+  return slots;
+}
+
+// ==================== CURRENT STATE ====================
+let currentPage = 'home';
+let currentUser = null;
+let selectedSlots = [];
+let bookingFormData = {};
+let selectedZone = 'B1';
+let adminPage = 'overview';
+let selectedPayMethod = 'upi';
+let lockTimers = {};
+let expiryTimers = {};
+
+// Surge detection
+function isSurge() {
+  const h = new Date().getHours();
+  const day = new Date().getDay();
+  const d = getData();
+  const ps = d.pricing;
+  if(ps.surgeActive) return true;
+  if(h >= ps.peakHours.start && h < ps.peakHours.end) return true;
+  if(day === 0 || day === 6) return true;
+  return false;
+}
+
+function getEffectiveRate(type) {
+  const d = getData();
+  const base = d.pricing[type] || 50;
+  return isSurge() ? Math.ceil(base * d.pricing.peakMulti) : base;
+}
+
+// ==================== AUTH ====================
+function tryLogin(email, password) {
+  const d = getData();
+  const u = d.users.find(u => u.email === email && u.password === password);
+  if(!u) return null;
+  currentUser = u;
+  d.currentUser = u.id;
+  saveData(d);
+  return u;
+}
+
+function trySignup(name, email, password) {
+  const d = getData();
+  if(d.users.find(u => u.email === email)) return { error:'Email already registered' };
+  const id = 'usr_' + Date.now();
+  const user = { id, name, email, password, role:'user', bookings:[], blocked:false };
+  d.users.push(user);
+  currentUser = user;
+  d.currentUser = id;
+  saveData(d);
+  return { user };
+}
+
+function logout() {
+  currentUser = null;
+  const d = getData();
+  d.currentUser = null;
+  saveData(d);
+  showPage('home');
+}
+
+function requireAuth(page) {
+  if(!currentUser) { showPage('auth'); return; }
+  showPage(page || 'home');
+}
+
+// ==================== SLOT BOOKING ====================
+function lockSlot(slotId, zone) {
+  const d = getData();
+  const slot = d.zones[zone].slots[slotId];
+  if(!slot || slot.state === 'booked' || slot.state === 'reserved') return false;
+  slot.state = 'locked';
+  slot.lockedUntil = Date.now() + 2 * 60 * 1000;
+  saveData(d);
+
+  // Auto-release after 2 minutes
+  if(lockTimers[slotId]) clearTimeout(lockTimers[slotId]);
+  lockTimers[slotId] = setTimeout(() => {
+    const d2 = getData();
+    const s = d2.zones[zone]?.slots[slotId];
+    if(s && s.state === 'locked') {
+      s.state = s.vehicle ? 'booked' : 'available';
+      s.lockedUntil = null;
+      saveData(d2);
+      toast('⏰ Slot lock expired. Please re-select.', 'warning');
+      if(currentPage === 'booking') renderPage();
+    }
+  }, 2 * 60 * 1000);
+  return true;
+}
+
+function releaseSlot(slotId, zone) {
+  const d = getData();
+  const slot = d.zones[zone]?.slots[slotId];
+  if(slot && slot.state === 'locked' && !slot.bookingId) {
+    slot.state = 'available';
+    slot.lockedUntil = null;
+    saveData(d);
+  }
+}
+
+function createBooking(slotIds, zone, vehicle, duration, plate) {
+  const d = getData();
+  if(!currentUser) return null;
+
+  // Check all still lockable
+  for(const sid of slotIds) {
+    const s = d.zones[zone].slots[sid];
+    if(!s || (s.state !== 'locked' && s.state !== 'available' && s.state !== 'ev')) {
+      toast('❌ Slot no longer available', 'error');
+      return null;
+    }
+  }
+
+  const baseRate = getEffectiveRate(vehicle);
+  const total = baseRate * slotIds.length * duration;
+  const bookingId = 'BK' + Date.now().toString().slice(-8);
+  const now = Date.now();
+  const expiry = now + duration * 60 * 60 * 1000;
+
+  const booking = {
+    id: bookingId,
+    userId: currentUser.id,
+    zone, slotIds, vehicle, duration, plate,
+    baseRate, total,
+    surge: isSurge(),
+    status: 'active',
+    createdAt: now,
+    expiresAt: expiry,
+    entryTime: null,
+    exitTime: null,
+    fine: 0,
+    extended: 0
+  };
+
+  d.bookings.push(booking);
+
+  for(const sid of slotIds) {
+    const s = d.zones[zone].slots[sid];
+    s.state = 'booked';
+    s.vehicle = vehicle;
+    s.bookingId = bookingId;
+    s.lockedUntil = null;
+    if(lockTimers[sid]) clearTimeout(lockTimers[sid]);
+  }
+
+  // Update user bookings
+  const u = d.users.find(u => u.id === currentUser.id);
+  if(u) u.bookings.push(bookingId);
+
+  // Revenue
+  d.revenue.today += total;
+  d.revenue.week += total;
+  d.revenue.total += total;
+
+  saveData(d);
+  startExpiryTimer(bookingId);
+  return booking;
+}
+
+function startExpiryTimer(bookingId) {
+  const d = getData();
+  const b = d.bookings.find(b => b.id === bookingId);
+  if(!b || b.status !== 'active') return;
+
+  const timeLeft = b.expiresAt - Date.now();
+  if(timeLeft <= 0) return;
+
+  // Warning at 5 min
+  const warnTime = timeLeft - 5*60*1000;
+  if(warnTime > 0) {
+    setTimeout(() => {
+      toast('⚠️ Booking ' + bookingId + ' expires in 5 minutes!', 'warning');
+    }, warnTime);
+  }
+
+  if(expiryTimers[bookingId]) clearTimeout(expiryTimers[bookingId]);
+  expiryTimers[bookingId] = setTimeout(() => {
+    applyOvertime(bookingId);
+  }, timeLeft);
+}
+
+function applyOvertime(bookingId) {
+  const d = getData();
+  const b = d.bookings.find(b => b.id === bookingId);
+  if(!b || b.status !== 'active') return;
+
+  b.status = 'overtime';
+  const fine = Math.ceil(b.baseRate * 1.5);
+  b.fine = fine;
+  saveData(d);
+  toast('🚨 Booking ' + bookingId + ' has expired! Fine: ₹' + fine, 'error');
+}
+
+function extendBooking(bookingId, hours) {
+  const d = getData();
+  const b = d.bookings.find(b => b.id === bookingId);
+  if(!b) return;
+
+  const addCost = getEffectiveRate(b.vehicle) * hours;
+  const fineClear = b.fine;
+  b.expiresAt += hours * 60 * 60 * 1000;
+  b.extended += hours;
+  b.total += addCost + fineClear;
+  b.fine = 0;
+  b.status = 'active';
+  d.revenue.today += addCost;
+  d.revenue.week += addCost;
+  d.revenue.total += addCost;
+  saveData(d);
+  startExpiryTimer(bookingId);
+  toast('✅ Booking extended by ' + hours + 'hr. Additional cost: ₹' + (addCost + fineClear), 'success');
+  renderPage();
+}
+
+function cancelBooking(bookingId) {
+  const d = getData();
+  const b = d.bookings.find(b => b.id === bookingId);
+  if(!b) return;
+
+  b.status = 'cancelled';
+  for(const sid of b.slotIds) {
+    const s = d.zones[b.zone]?.slots[sid];
+    if(s) { s.state='available'; s.vehicle=null; s.bookingId=null; }
+  }
+  saveData(d);
+  toast('Booking cancelled', 'success');
+  renderPage();
+}
+
+// ==================== TOAST ====================
+function toast(msg, type='success') {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  const icons = {success:'✅',error:'❌',warning:'⚠️'};
+  t.innerHTML = `<span>${icons[type]||'ℹ️'}</span><span>${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(() => { t.style.animation='toastOut .3s ease forwards'; setTimeout(()=>t.remove(),300); }, 3500);
+}
+
+// ==================== PAGES ====================
+function showPage(page) {
+  currentPage = page;
+  if(page === 'auth' && currentUser) { showPage('home'); return; }
+  renderPage();
+  updateNav();
+}
+
+function updateNav() {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  const map = {home:'bn-home',booking:'bn-book','my-bookings':'bn-my',help:'bn-help',admin:'bn-admin'};
+  const el = document.getElementById(map[currentPage]);
+  if(el) el.classList.add('active');
+  const nb = document.querySelector(`.nav-btn[data-page="${currentPage}"]`);
+  if(nb) nb.classList.add('active');
+}
+
+function renderPage() {
+  const app = document.getElementById('app');
+  const nav = buildNav();
+  let content = '';
+
+  switch(currentPage) {
+    case 'home': content = buildHome(); break;
+    case 'auth': content = buildAuth(); break;
+    case 'booking': content = buildBooking(); break;
+    case 'slot-select': content = buildSlotSelect(); break;
+    case 'payment': content = buildPayment(); break;
+    case 'confirm': content = buildConfirm(); break;
+    case 'my-bookings': content = buildMyBookings(); break;
+    case 'help': content = buildHelp(); break;
+    case 'admin': content = buildAdmin(); break;
+    default: content = buildHome();
+  }
+
+  app.innerHTML = nav + `<div class="page">${content}</div>`;
+  attachEventListeners();
+  initTimers();
+}
+
+// ==================== NAV BUILD ====================
+function buildNav() {
+  const isAdmin = currentUser?.role === 'admin';
+  return `
+  <nav class="topnav">
+    <div class="logo" onclick="showPage('home')">Park<span>Smart</span></div>
+    <nav>
+      <button class="nav-btn" data-page="home" onclick="showPage('home')">🏠 Home</button>
+      <button class="nav-btn" data-page="booking" onclick="showPage('booking')">🅿️ Book Slot</button>
+      <button class="nav-btn" data-page="my-bookings" onclick="requireAuth('my-bookings')">📋 My Bookings</button>
+      <button class="nav-btn" data-page="help" onclick="showPage('help')">🆘 Help</button>
+      ${isAdmin ? `<button class="nav-btn" data-page="admin" onclick="showPage('admin')">⚙️ Admin</button>` : ''}
+    </nav>
+    ${currentUser ?
+      `<div class="user-badge" onclick="showUserMenu()">👤 ${currentUser.name.split(' ')[0]} <span style="color:var(--text3)">▾</span></div>` :
+      `<button class="btn btn-primary btn-sm" onclick="showPage('auth')">Sign In</button>`
+    }
+  </nav>`;
+}
+
+// ==================== HOME ====================
+function buildHome() {
+  const d = getData();
+  let totalAvail = 0, totalBooked = 0, totalSlots = 0;
+  for(const z of Object.values(d.zones)) {
+    for(const s of Object.values(z.slots)) {
+      totalSlots++;
+      if(s.state==='available'||s.state==='ev') totalAvail++;
+      if(s.state==='booked') totalBooked++;
+    }
+  }
+  const h = new Date().getHours();
+  const day = new Date().getDay();
+  const isWeekend = day===0||day===6;
+  const isPeak = h>=18&&h<22;
+  const surgeOn = isSurge();
+
+  // Smart alerts
+  let alerts = [];
+  if(surgeOn) alerts.push({icon:'⚡',msg:`<strong>Surge Pricing Active</strong> — ${isPeak?'Peak hours 6–10 PM':'Weekend demand'}. +25% on all rates.`,type:'yellow'});
+  if(isWeekend) alerts.push({icon:'📅',msg:`<strong>Weekend Alert</strong> — Phoenix Marketcity is at high capacity. Pre-book to guarantee a slot.`,type:'orange'});
+  if(totalAvail < 80) alerts.push({icon:'🚗',msg:`<strong>Low Availability</strong> — Only ${totalAvail} slots remaining. Book now!`,type:'red'});
+
+  return `
+  <div class="hero animate-in">
+    <div class="hero-eyebrow">📍 Phoenix Marketcity, Whitefield, Bengaluru</div>
+    <h1>Smart Parking<br/><span>for Bengaluru</span></h1>
+    <p>Pre-book your parking slot and skip the 20-minute hunt. Real-time availability, surge alerts, and instant confirmation.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="showPage('booking')">🅿️ Book a Slot Now</button>
+      <button class="btn btn-secondary" onclick="${currentUser?`showPage('my-bookings')`:`showPage('auth')`}">📋 My Bookings</button>
+    </div>
+  </div>
+
+  ${alerts.map(a=>`
+  <div class="alert-bar" style="border-color:rgba(255,214,10,.3);margin-bottom:8px">
+    <span class="alert-icon">${a.icon}</span>
+    <span class="alert-text">${a.msg}</span>
+  </div>`).join('')}
+
+  <div class="stats-row animate-in anim-delay-1">
+    <div class="stat-card green"><div class="val">${totalAvail}</div><div class="lbl"><span class="live-dot"></span>Available Now</div></div>
+    <div class="stat-card red"><div class="val">${totalBooked}</div><div class="lbl">Currently Occupied</div></div>
+    <div class="stat-card accent"><div class="val">${totalSlots}</div><div class="lbl">Total Capacity</div></div>
+    <div class="stat-card yellow"><div class="val">${surgeOn?'+25%':'Normal'}</div><div class="lbl">Current Pricing</div></div>
+  </div>
+
+  <div class="ai-box animate-in anim-delay-2">
+    <div class="ai-header"><span style="font-size:20px">🤖</span><span class="ai-label">AI Suggestions</span><span class="badge badge-accent" style="margin-left:auto">Smart Rec</span></div>
+    <div class="ai-suggestion-text">Based on current patterns at Phoenix Marketcity, Whitefield:</div>
+    <div class="ai-suggestions">
+      <div class="ai-sug"><div class="as-label">BEST TIME TO VISIT</div>Weekdays 3–5 PM have lowest occupancy (~35%). Avoid 6–9 PM evenings.</div>
+      <div class="ai-sug"><div class="as-label">RECOMMENDED ZONE</div>Basement 1 (B1) has direct lift access. Nearest to food court entrance.</div>
+      <div class="ai-sug"><div class="as-label">SAVE ₹50+ TODAY</div>Book 2 hrs in advance. Surge pricing starts at 6 PM — current savings window is now.</div>
+    </div>
+  </div>
+
+  <div style="padding:0 24px;max-width:1100px;margin:0 auto 16px" class="animate-in anim-delay-2">
+    <div class="section-title">🅿️ Available Zones <span class="tag">Live</span></div>
+  </div>
+
+  <div class="zones animate-in anim-delay-3">
+    ${buildZoneCard('B1',d)}
+    ${buildZoneCard('B2',d)}
+    ${buildZoneCard('OA',d)}
+  </div>
+
+  <div class="pricing-section animate-in">
+    <div class="section-title">💰 Current Rates ${surgeOn?'<span class="badge badge-yellow">Surge Active</span>':''}</div>
+    <div class="pricing-grid">
+      ${['bike','car','ev'].map(v=>`
+      <div class="price-card">
+        <div class="icon">${v==='bike'?'🏍️':v==='car'?'🚗':'⚡'}</div>
+        <div class="type">${v.charAt(0).toUpperCase()+v.slice(1)}</div>
+        <div class="rate">₹${getEffectiveRate(v)}<span style="font-size:14px;color:var(--text2)">/hr</span></div>
+        ${surgeOn?`<div class="surge">Base ₹${getData().pricing[v]} + 25% surge</div>`:''
+        }
+      </div>`).join('')}
+      <div class="price-card">
+        <div class="icon">⏱️</div>
+        <div class="type">Overtime Fine</div>
+        <div class="rate" style="font-size:18px;color:var(--red)">1.5× rate</div>
+        <div class="surge">After booking expires</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildZoneCard(zid, d) {
+  const z = d.zones[zid];
+  let avail=0, booked=0, ev=0, reserved=0;
+  for(const s of Object.values(z.slots)) {
+    if(s.state==='available') avail++;
+    else if(s.state==='booked') booked++;
+    else if(s.state==='ev') ev++;
+    else if(s.state==='reserved') reserved++;
+  }
+  const total = z.total;
+  const pct = Math.round((avail+ev)/total*100);
+  const fillClass = pct > 40 ? '' : pct > 20 ? 'warn' : 'danger';
+  return `
+  <div class="zone-card" onclick="selectedZone='${zid}';showPage('booking')">
+    <div class="zone-name">${z.name}</div>
+    <div class="zone-sub">${zid==='B1'?'Covered • Lift Access • Nearest Entrance':zid==='B2'?'Covered • Multi-Level • EV Charging':'Open Air • Motorcycle Friendly'}</div>
+    <div class="zone-stats">
+      <div class="zone-stat"><div class="zs-val" style="color:var(--green)">${avail}</div><div class="zs-lbl">Available</div></div>
+      <div class="zone-stat"><div class="zs-val" style="color:var(--red)">${booked}</div><div class="zs-lbl">Occupied</div></div>
+      <div class="zone-stat"><div class="zs-val" style="color:var(--blue)">${ev}</div><div class="zs-lbl">EV Slots</div></div>
+    </div>
+    <div class="zone-avail">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>Availability</span><span>${pct}%</span></div>
+      <div class="avail-bar"><div class="avail-fill ${fillClass}" style="width:${pct}%"></div></div>
+    </div>
+    <div style="margin-top:12px;font-size:12px;color:var(--accent)">Tap to book →</div>
+  </div>`;
+}
+
+// ==================== AUTH PAGE ====================
+function buildAuth() {
+  return `
+  <div class="auth-page">
+    <div class="auth-card">
+      <div style="font-size:36px;margin-bottom:12px">🅿️</div>
+      <h2>Welcome to ParkSmart</h2>
+      <p>Sign in to book slots, view history and manage your parking at Phoenix Marketcity.</p>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Sign In</button>
+        <button class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Create Account</button>
+      </div>
+      <div id="auth-login">
+        <div class="form-group" style="margin-bottom:14px">
+          <label>Email Address</label>
+          <input type="email" id="login-email" placeholder="you@email.com" value="admin@parksmart.in"/>
+        </div>
+        <div class="form-group" style="margin-bottom:20px">
+          <label>Password</label>
+          <input type="password" id="login-pass" placeholder="••••••••" value="admin123"/>
+        </div>
+        <button class="btn btn-primary w-full" onclick="doLogin()">Sign In →</button>
+        <div style="font-size:12px;color:var(--text3);margin-top:12px;text-align:center">
+          Demo: admin@parksmart.in / admin123 (Admin access)
+        </div>
+      </div>
+      <div id="auth-signup" class="hidden">
+        <div class="form-group" style="margin-bottom:14px">
+          <label>Full Name</label>
+          <input type="text" id="su-name" placeholder="Rahul Sharma"/>
+        </div>
+        <div class="form-group" style="margin-bottom:14px">
+          <label>Email Address</label>
+          <input type="email" id="su-email" placeholder="you@email.com"/>
+        </div>
+        <div class="form-group" style="margin-bottom:20px">
+          <label>Password</label>
+          <input type="password" id="su-pass" placeholder="Min 6 characters"/>
+        </div>
+        <button class="btn btn-primary w-full" onclick="doSignup()">Create Account →</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function switchAuthTab(tab) {
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-signup').classList.toggle('active', tab==='signup');
+  document.getElementById('auth-login').classList.toggle('hidden', tab!=='login');
+  document.getElementById('auth-signup').classList.toggle('hidden', tab!=='signup');
+}
+
+function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  if(!email||!pass) { toast('Please fill all fields','error'); return; }
+  const u = tryLogin(email, pass);
+  if(!u) { toast('Invalid credentials','error'); return; }
+  toast(`Welcome back, ${u.name}! 👋`, 'success');
+  showPage('home');
+}
+
+function doSignup() {
+  const name = document.getElementById('su-name').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const pass = document.getElementById('su-pass').value;
+  if(!name||!email||!pass) { toast('Please fill all fields','error'); return; }
+  if(pass.length < 6) { toast('Password must be 6+ characters','error'); return; }
+  const r = trySignup(name, email, pass);
+  if(r.error) { toast(r.error,'error'); return; }
+  toast(`Account created! Welcome, ${name}! 🎉`, 'success');
+  showPage('home');
+}
+
+// ==================== BOOKING PAGE ====================
+function buildBooking() {
+  const d = getData();
+  const surge = isSurge();
+  return `
+  <div style="padding:24px;max-width:1100px;margin:0 auto">
+    <div class="booking-header animate-in">
+      <button class="btn btn-secondary btn-sm" onclick="showPage('home')">← Back</button>
+      <h2 style="font-family:var(--font-display);font-size:24px;font-weight:700">Book a Parking Slot</h2>
+      ${surge?`<span class="badge badge-yellow">⚡ Surge Pricing</span>`:''}
+      <span style="margin-left:auto"><span class="live-dot"></span><span class="text-sm" style="color:var(--text2)">Live Updates</span></span>
+    </div>
+
+    <div class="booking-form animate-in">
+      <div class="section-title" style="font-size:16px;margin-bottom:16px">📋 Booking Details</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Zone</label>
+          <select id="sel-zone" onchange="selectedZone=this.value;renderSlotGrid()">
+            <option value="B1" ${selectedZone==='B1'?'selected':''}>Basement 1 (B1)</option>
+            <option value="B2" ${selectedZone==='B2'?'selected':''}>Basement 2 (B2)</option>
+            <option value="OA" ${selectedZone==='OA'?'selected':''}>Open Area (OA)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Vehicle Type</label>
+          <select id="sel-vehicle">
+            <option value="car">🚗 Car</option>
+            <option value="bike">🏍️ Bike</option>
+            <option value="ev">⚡ EV</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Duration (hours)</label>
+          <select id="sel-duration">
+            <option value="1">1 hour</option>
+            <option value="2" selected>2 hours</option>
+            <option value="3">3 hours</option>
+            <option value="4">4 hours</option>
+            <option value="6">6 hours</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>License Plate</label>
+          <input type="text" id="inp-plate" placeholder="KA-01-AB-1234" style="text-transform:uppercase"/>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn btn-secondary btn-sm" onclick="refreshSlots()">🔄 Refresh</button>
+        <span class="text-sm" style="color:var(--text2)">Select slots from grid below • Hold for 2 min lock</span>
+        ${selectedSlots.length > 0 ? `<span class="badge badge-accent">${selectedSlots.length} slot(s) selected</span>`:``}
+      </div>
+    </div>
+
+    <div class="slot-grid-container animate-in anim-delay-1">
+      <div class="section-title" style="font-size:16px;margin-bottom:4px">🗂️ Slot Map — ${d.zones[selectedZone].name}</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:16px">Click to select available slots. Slots auto-lock for 2 minutes after selection.</div>
+      <div class="slot-legend">
+        <div class="legend-item"><div class="legend-dot ld-green"></div>Available</div>
+        <div class="legend-item"><div class="legend-dot ld-red"></div>Occupied</div>
+        <div class="legend-item"><div class="legend-dot ld-yellow"></div>Reserved</div>
+        <div class="legend-item"><div class="legend-dot ld-blue"></div>EV Charging</div>
+        <div class="legend-item"><div class="legend-dot ld-purple"></div>Locked (2min)</div>
+      </div>
+      <div id="slot-grid-root"></div>
+    </div>
+
+    <div id="booking-summary" class="hidden booking-form">
+      <div class="section-title" style="font-size:16px;margin-bottom:12px">💰 Booking Summary</div>
+      <div id="summary-content"></div>
+      <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="proceedToPayment()">Proceed to Payment →</button>
+        <button class="btn btn-secondary" onclick="clearSelection()">Clear Selection</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderSlotGrid() {
+  const root = document.getElementById('slot-grid-root');
+  if(!root) return;
+  const d = getData();
+  const zone = document.getElementById('sel-zone')?.value || selectedZone;
+  const slots = Object.values(d.zones[zone].slots);
+
+  // Render in rows of 20
+  const rowSize = 20;
+  let html = '';
+  for(let row=0; row<Math.ceil(slots.length/rowSize); row++) {
+    const rowSlots = slots.slice(row*rowSize, (row+1)*rowSize);
+    const rowLabel = String.fromCharCode(65+row);
+    html += `<div class="slot-row-label">Row ${rowLabel}</div>`;
+    html += `<div class="slot-grid">`;
+    for(const s of rowSlots) {
+      const isSelected = selectedSlots.includes(s.id);
+      const stateClass = isSelected ? 'selected' : s.state;
+      const title = `${s.id} • ${s.state}`;
+      html += `<div class="slot ${stateClass}" title="${title}" onclick="toggleSlot('${s.id}','${zone}')">${s.num}</div>`;
+    }
+    html += `</div>`;
+  }
+  root.innerHTML = html;
+  updateSummary();
+}
+
+function toggleSlot(slotId, zone) {
+  const d = getData();
+  const s = d.zones[zone].slots[slotId];
+  if(!s) return;
+
+  if(s.state === 'booked' || s.state === 'reserved') {
+    toast('This slot is unavailable', 'error'); return;
+  }
+
+  if(!currentUser) { toast('Please sign in to book', 'warning'); showPage('auth'); return; }
+
+  const idx = selectedSlots.indexOf(slotId);
+  if(idx > -1) {
+    // Deselect
+    selectedSlots.splice(idx, 1);
+    releaseSlot(slotId, zone);
+  } else {
+    // Select & lock
+    if(s.state !== 'available' && s.state !== 'ev' && s.state !== 'locked') {
+      toast('Slot not available', 'error'); return;
+    }
+    selectedSlots.push(slotId);
+    lockSlot(slotId, zone);
+  }
+  renderSlotGrid();
+}
+
+function clearSelection() {
+  const zone = document.getElementById('sel-zone')?.value || selectedZone;
+  for(const sid of selectedSlots) releaseSlot(sid, zone);
+  selectedSlots = [];
+  renderSlotGrid();
+}
+
+function updateSummary() {
+  const summary = document.getElementById('booking-summary');
+  const content = document.getElementById('summary-content');
+  if(!summary||!content) return;
+
+  if(selectedSlots.length === 0) { summary.classList.add('hidden'); return; }
+  summary.classList.remove('hidden');
+
+  const vehicle = document.getElementById('sel-vehicle')?.value || 'car';
+  const duration = parseInt(document.getElementById('sel-duration')?.value || '2');
+  const rate = getEffectiveRate(vehicle);
+  const base = rate * selectedSlots.length * duration;
+  const surge = isSurge();
+
+  content.innerHTML = `
+    <div class="price-breakdown">
+      <div class="breakdown-row"><span>Slots selected</span><span>${selectedSlots.length}x (${selectedSlots.join(', ')})</span></div>
+      <div class="breakdown-row"><span>Rate (${vehicle})</span><span>₹${rate}/hr${surge?' (incl. surge)':''}</span></div>
+      <div class="breakdown-row"><span>Duration</span><span>${duration} hour(s)</span></div>
+      ${surge?`<div class="breakdown-row" style="color:var(--yellow)"><span>⚡ Surge Pricing</span><span>+25%</span></div>`:''}
+      <div class="breakdown-row total"><span>Total Estimate</span><span>₹${base}</span></div>
+    </div>`;
+}
+
+function proceedToPayment() {
+  if(!currentUser) { showPage('auth'); return; }
+  if(selectedSlots.length === 0) { toast('Please select at least one slot', 'error'); return; }
+  const zone = document.getElementById('sel-zone')?.value || selectedZone;
+  const vehicle = document.getElementById('sel-vehicle')?.value || 'car';
+  const duration = parseInt(document.getElementById('sel-duration')?.value || '2');
+  const plate = document.getElementById('inp-plate')?.value.trim().toUpperCase() || 'KA-00-XX-0000';
+
+  bookingFormData = { zone, vehicle, duration, plate, slotIds: [...selectedSlots] };
+  showPage('payment');
+}
+
+function refreshSlots() {
+  // Simulate some changes
+  const d = getData();
+  const zone = selectedZone;
+  const slots = Object.values(d.zones[zone].slots);
+  let changed = 0;
+  for(const s of slots) {
+    if(s.state === 'available' && Math.random() < 0.05) { s.state = 'booked'; changed++; }
+    else if(s.state === 'booked' && Math.random() < 0.03) { s.state = 'available'; changed++; }
+  }
+  saveData(d);
+  renderSlotGrid();
+  toast(`Slots refreshed. ${changed} changes detected.`, 'success');
+}
+
+// ==================== PAYMENT PAGE ====================
+function buildPayment() {
+  if(!bookingFormData.slotIds) { showPage('booking'); return ''; }
+  const vehicle = bookingFormData.vehicle;
+  const duration = bookingFormData.duration;
+  const slotCount = bookingFormData.slotIds.length;
+  const rate = getEffectiveRate(vehicle);
+  const baseTotal = rate * slotCount * duration;
+  const d = getData();
+  const baseRate = d.pricing[vehicle];
+  const surgeAmt = isSurge() ? Math.round((baseRate * d.pricing.peakMulti - baseRate) * slotCount * duration) : 0;
+
+  return `
+  <div style="padding:24px;max-width:600px;margin:0 auto">
+    <div class="booking-header animate-in">
+      <button class="btn btn-secondary btn-sm" onclick="showPage('booking')">← Back</button>
+      <h2 style="font-family:var(--font-display);font-size:24px;font-weight:700">💳 Payment</h2>
+    </div>
+
+    <div class="demo-label animate-in">⚠️ DEMO SIMULATION — No real payment processed</div>
+
+    <div class="payment-card animate-in">
+      <div class="section-title" style="font-size:16px;margin-bottom:8px">Order Summary</div>
+      <div class="price-breakdown">
+        <div class="breakdown-row"><span>Zone</span><span>${bookingFormData.zone} — ${getData().zones[bookingFormData.zone].name}</span></div>
+        <div class="breakdown-row"><span>Slots</span><span>${bookingFormData.slotIds.join(', ')}</span></div>
+        <div class="breakdown-row"><span>Vehicle</span><span>${vehicle.charAt(0).toUpperCase()+vehicle.slice(1)}</span></div>
+        <div class="breakdown-row"><span>Plate</span><span>${bookingFormData.plate}</span></div>
+        <div class="breakdown-row"><span>Duration</span><span>${duration} hour(s)</span></div>
+        <div class="breakdown-row"><span>Base Rate</span><span>₹${baseRate}/hr × ${slotCount} × ${duration}hr = ₹${baseRate*slotCount*duration}</span></div>
+        ${isSurge()?`<div class="breakdown-row" style="color:var(--yellow)"><span>⚡ Surge (+25%)</span><span>+₹${surgeAmt}</span></div>`:''}
+        <div class="breakdown-row total"><span>Total Amount</span><span>₹${baseTotal}</span></div>
+      </div>
+
+      <div class="section-title" style="font-size:14px;margin-bottom:10px">Select Payment Method</div>
+      <div class="payment-methods">
+        <div class="pay-method ${selectedPayMethod==='upi'?'selected':''}" onclick="selectPayMethod('upi')">
+          <div class="pm-icon">📱</div><div class="pm-name">UPI</div>
+        </div>
+        <div class="pay-method ${selectedPayMethod==='card'?'selected':''}" onclick="selectPayMethod('card')">
+          <div class="pm-icon">💳</div><div class="pm-name">Card</div>
+        </div>
+        <div class="pay-method ${selectedPayMethod==='wallet'?'selected':''}" onclick="selectPayMethod('wallet')">
+          <div class="pm-icon">👛</div><div class="pm-name">Wallet</div>
+        </div>
+      </div>
+
+      <div id="pay-input-area">
+        ${buildPayInputArea(selectedPayMethod)}
+      </div>
+
+      <button class="btn btn-primary w-full" style="margin-top:16px;padding:14px" onclick="processPayment()">
+        Pay ₹${baseTotal} — Confirm Booking →
+      </button>
+    </div>
+  </div>`;
+}
+
+function buildPayInputArea(method) {
+  if(method === 'upi') return `
+    <div class="form-group"><label>UPI ID</label>
+    <input type="text" placeholder="yourname@upi" value="demo@okaxis"/></div>`;
+  if(method === 'card') return `
+    <div class="form-grid" style="grid-template-columns:1fr 1fr">
+      <div class="form-group" style="grid-column:1/-1"><label>Card Number</label>
+      <input type="text" placeholder="1234 5678 9012 3456" value="4242 4242 4242 4242"/></div>
+      <div class="form-group"><label>Expiry</label><input type="text" placeholder="MM/YY" value="12/26"/></div>
+      <div class="form-group"><label>CVV</label><input type="text" placeholder="123" value="123"/></div>
+    </div>`;
+  return `<div class="form-group"><label>Wallet Balance: ₹2,500</label>
+    <div style="color:var(--green);font-size:14px">✓ Sufficient balance available</div></div>`;
+}
+
+function selectPayMethod(m) {
+  selectedPayMethod = m;
+  // Re-render just the input area
+  const area = document.getElementById('pay-input-area');
+  if(area) {
+    area.innerHTML = buildPayInputArea(m);
+    // Update selected state
+    document.querySelectorAll('.pay-method').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.pay-method').forEach((el, i) => {
+      if(['upi','card','wallet'][i] === m) el.classList.add('selected');
+    });
+  }
+}
+
+function processPayment() {
+  const btn = document.querySelector('.payment-card .btn-primary');
+  if(btn) { btn.textContent = 'Processing…'; btn.disabled = true; }
+  setTimeout(() => {
+    if(Math.random() < 0.05) {
+      toast('Payment failed. Please try again.', 'error');
+      if(btn) { btn.textContent = 'Retry Payment'; btn.disabled = false; }
+      return;
+    }
+    const booking = createBooking(
+      bookingFormData.slotIds,
+      bookingFormData.zone,
+      bookingFormData.vehicle,
+      bookingFormData.duration,
+      bookingFormData.plate
+    );
+    if(booking) {
+      selectedSlots = [];
+      window._lastBooking = booking;
+      showPage('confirm');
+      toast('🎉 Booking confirmed!', 'success');
+    }
+  }, 1800);
+}
+
+// ==================== CONFIRM PAGE ====================
+function buildConfirm() {
+  const b = window._lastBooking;
+  if(!b) { showPage('home'); return ''; }
+  const expiry = new Date(b.expiresAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  const created = new Date(b.createdAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+
+  // Generate fake QR pattern
+  const qr = Array.from({length:64},()=>Math.random()>.5?1:0);
+
+  return `
+  <div style="padding:32px 24px;max-width:600px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:24px" class="animate-in">
+      <div style="font-size:56px;margin-bottom:12px">✅</div>
+      <h2 style="font-family:var(--font-display);font-size:28px;font-weight:800;color:var(--green)">Booking Confirmed!</h2>
+      <p style="color:var(--text2)">Show QR at parking entry</p>
+    </div>
+
+    <div class="confirm-card animate-in anim-delay-1">
+      <div class="qr-sim">
+        <div class="qr-inner">
+          ${qr.map(v=>`<div class="qr-cell" style="background:${v?'var(--text)':'transparent'}"></div>`).join('')}
+        </div>
+      </div>
+      <div class="booking-id">${b.id}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;margin:16px 0">
+        <div style="background:var(--bg3);border-radius:8px;padding:10px"><div style="color:var(--text2);font-size:11px">ZONE</div>${getData().zones[b.zone].name}</div>
+        <div style="background:var(--bg3);border-radius:8px;padding:10px"><div style="color:var(--text2);font-size:11px">SLOTS</div>${b.slotIds.join(', ')}</div>
+        <div style="background:var(--bg3);border-radius:8px;padding:10px"><div style="color:var(--text2);font-size:11px">VEHICLE</div>${b.vehicle.toUpperCase()} • ${b.plate}</div>
+        <div style="background:var(--bg3);border-radius:8px;padding:10px"><div style="color:var(--text2);font-size:11px">AMOUNT PAID</div><span style="color:var(--accent)">₹${b.total}</span></div>
+        <div style="background:var(--bg3);border-radius:8px;padding:10px"><div style="color:var(--text2);font-size:11px">BOOKED AT</div>${created}</div>
+        <div style="background:var(--bg3);border-radius:8px;padding:10px"><div style="color:var(--text2);font-size:11px">EXPIRES AT</div>${expiry}</div>
+      </div>
+      <div style="text-align:center;margin-bottom:8px;font-size:12px;color:var(--text2)">Time Remaining</div>
+      <div class="timer-display" id="confirm-timer">--:--</div>
+      <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-secondary btn-sm" onclick="showPage('my-bookings')">📋 My Bookings</button>
+        <button class="btn btn-secondary btn-sm" onclick="showPage('home')">🏠 Home</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ==================== MY BOOKINGS ====================
+function buildMyBookings() {
+  if(!currentUser) { showPage('auth'); return ''; }
+  const d = getData();
+  const myBookings = d.bookings.filter(b => b.userId === currentUser.id).reverse();
+
+  return `
+  <div style="padding:24px;max-width:900px;margin:0 auto">
+    <div class="booking-header animate-in">
+      <button class="btn btn-secondary btn-sm" onclick="showPage('home')">← Home</button>
+      <h2 style="font-family:var(--font-display);font-size:24px;font-weight:700">📋 My Bookings</h2>
+    </div>
+
+    ${myBookings.length === 0 ? `
+    <div style="text-align:center;padding:60px;color:var(--text2)">
+      <div style="font-size:48px;margin-bottom:16px">🅿️</div>
+      <div>No bookings yet. <a href="#" onclick="showPage('booking')" style="color:var(--accent)">Book your first slot →</a></div>
+    </div>` : myBookings.map(b => buildBookingCard(b)).join('')}
+
+    <div class="find-car-box animate-in">
+      <div class="section-title" style="font-size:16px;margin-bottom:12px">🔍 Find My Car</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:12px">Your vehicle location within Phoenix Marketcity</div>
+      <div class="car-map">
+        <div class="car-map-grid">
+          ${Array.from({length:50},()=>`<div class="cgrid-cell"></div>`).join('')}
+        </div>
+        ${myBookings.find(b=>b.status==='active') ? `<div class="car-marker" style="top:40%;left:35%">🚗</div>`:
+        `<div style="color:var(--text3);font-size:13px">No active booking</div>`}
+      </div>
+      ${myBookings.find(b=>b.status==='active') ? `<div style="margin-top:10px;font-size:13px;color:var(--text2)">
+        📍 Your car is in <strong style="color:var(--accent)">${myBookings.find(b=>b.status==='active').zone} — Row B</strong></div>`:``}
+    </div>
+  </div>`;
+}
+
+function buildBookingCard(b) {
+  const now = Date.now();
+  const timeLeft = b.expiresAt - now;
+  const isActive = b.status === 'active';
+  const isOT = b.status === 'overtime';
+  const mins = Math.max(0, Math.floor(timeLeft / 60000));
+  const hrs = Math.floor(mins/60);
+  const remMins = mins%60;
+
+  return `
+  <div class="booking-card animate-in">
+    <div class="bc-header">
+      <div>
+        <div class="bc-id">${b.id}</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px">${new Date(b.createdAt).toLocaleDateString('en-IN')} • ${getData().zones[b.zone].name}</div>
+      </div>
+      <span class="badge ${isActive?'badge-green':isOT?'badge-red':b.status==='cancelled'?'badge-red':'badge-accent'}">${isOT?'OVERTIME':b.status.toUpperCase()}</span>
+    </div>
+    <div class="bc-details">
+      <div>🚗 ${b.vehicle.toUpperCase()} • ${b.plate}</div>
+      <div>🅿️ Slots: ${b.slotIds.join(', ')}</div>
+      <div>⏱️ ${b.duration}hr booked</div>
+      <div>💰 ₹${b.total} ${b.surge?'(surge)':''}</div>
+    </div>
+    ${isActive ? `<div style="margin-top:10px;font-size:13px;color:var(--text2)">
+      Time left: <strong style="color:${mins<10?'var(--red)':mins<30?'var(--yellow)':'var(--green)'}">${hrs>0?hrs+'h ':''} ${remMins}m</strong>
+      </div>` : ''}
+    ${isOT ? `<div class="fine-banner"><span class="fb-icon">⚠️</span><span class="fb-text">Overtime! Fine: <strong>₹${b.fine}</strong>. Extend to clear fine.</span></div>` : ''}
+    ${b.fine > 0 && isActive ? `<div class="fine-banner"><span class="fb-icon">💸</span><span class="fb-text">Fine accrued: <strong>₹${b.fine}</strong></span></div>`:''}
+    <div class="bc-actions">
+      ${(isActive||isOT) ? `
+        <button class="btn btn-secondary btn-sm" onclick="extendBooking('${b.id}',1)">+1 hr (₹${getEffectiveRate(b.vehicle)}${b.fine?'+₹'+b.fine:''}) </button>
+        <button class="btn btn-secondary btn-sm" onclick="extendBooking('${b.id}',2)">+2 hr</button>
+        <button class="btn btn-danger btn-sm" onclick="cancelBooking('${b.id}')">Cancel</button>
+      ` : ''}
+    </div>
+  </div>`;
+}
+
+// ==================== HELP PAGE ====================
+function buildHelp() {
+  return `
+  <div style="padding:24px;max-width:700px;margin:0 auto">
+    <div class="booking-header animate-in">
+      <button class="btn btn-secondary btn-sm" onclick="showPage('home')">← Home</button>
+      <h2 style="font-family:var(--font-display);font-size:24px;font-weight:700">🆘 Help & Support</h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:24px" class="animate-in">
+      <div class="help-card" onclick="reportIssue('slot-occupied')">
+        <div style="font-size:24px;margin-bottom:8px">🚫</div>
+        <div style="font-weight:600;margin-bottom:4px">Slot Already Occupied</div>
+        <div style="font-size:12px;color:var(--text2)">Report if your booked slot has another vehicle</div>
+      </div>
+      <div class="help-card" onclick="reportIssue('payment-issue')">
+        <div style="font-size:24px;margin-bottom:8px">💳</div>
+        <div style="font-weight:600;margin-bottom:4px">Payment Issue</div>
+        <div style="font-size:12px;color:var(--text2)">Amount deducted but booking not confirmed</div>
+      </div>
+      <div class="help-card" onclick="reportIssue('cant-exit')">
+        <div style="font-size:24px;margin-bottom:8px">🚪</div>
+        <div style="font-weight:600;margin-bottom:4px">Can't Exit</div>
+        <div style="font-size:12px;color:var(--text2)">Barrier not opening or QR not working</div>
+      </div>
+      <div class="help-card" onclick="reportIssue('other')">
+        <div style="font-size:24px;margin-bottom:8px">📝</div>
+        <div style="font-weight:600;margin-bottom:4px">Other Issue</div>
+        <div style="font-size:12px;color:var(--text2)">Damaged slot, lighting issue, etc.</div>
+      </div>
+    </div>
+
+    <div class="booking-form animate-in anim-delay-1">
+      <div class="section-title" style="font-size:16px;margin-bottom:12px">📞 Contact Support</div>
+      <div style="display:grid;gap:12px">
+        <div style="background:var(--bg3);border-radius:10px;padding:14px;display:flex;gap:12px;align-items:center">
+          <span style="font-size:20px">📞</span>
+          <div><div style="font-size:13px;color:var(--text2)">24/7 Helpline</div><div style="font-weight:600">1800-PARKSMART</div></div>
+        </div>
+        <div style="background:var(--bg3);border-radius:10px;padding:14px;display:flex;gap:12px;align-items:center">
+          <span style="font-size:20px">💬</span>
+          <div><div style="font-size:13px;color:var(--text2)">WhatsApp Support</div><div style="font-weight:600">+91 98765 43210</div></div>
+        </div>
+        <div style="background:var(--bg3);border-radius:10px;padding:14px;display:flex;gap:12px;align-items:center">
+          <span style="font-size:20px">📧</span>
+          <div><div style="font-size:13px;color:var(--text2)">Email</div><div style="font-weight:600">support@parksmart.in</div></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="panic-btn animate-in anim-delay-2" onclick="triggerPanic()">
+      🚨 EMERGENCY PANIC BUTTON
+    </button>
+    <div style="text-align:center;font-size:12px;color:var(--text3);margin-top:8px">Alerts security staff & sends your location immediately</div>
+  </div>`;
+}
+
+function reportIssue(type) {
+  const msgs = {
+    'slot-occupied': 'Slot occupied issue reported. Security has been notified.',
+    'payment-issue': 'Payment issue logged. Refund processed within 2-4 hours.',
+    'cant-exit': 'Exit issue reported. Operator notified. Call 1800-PARKSMART.',
+    'other': 'Issue reported. Support team will contact you shortly.'
+  };
+  const d = getData();
+  d.alerts.push({
+    id: 'ALT'+Date.now(),
+    type,
+    userId: currentUser?.id,
+    msg: msgs[type],
+    time: Date.now(),
+    status: 'open'
+  });
+  saveData(d);
+  toast(msgs[type], 'success');
+}
+
+function triggerPanic() {
+  toast('🚨 EMERGENCY ALERT SENT — Security dispatched to your location!', 'error');
+  const d = getData();
+  d.alerts.push({
+    id: 'PANIC'+Date.now(),
+    type:'panic',
+    userId: currentUser?.id,
+    msg: 'PANIC: Emergency at parking zone',
+    time: Date.now(),
+    status: 'urgent'
+  });
+  saveData(d);
+}
+
+// ==================== ADMIN DASHBOARD ====================
+function buildAdmin() {
+  if(!currentUser || currentUser.role !== 'admin') {
+    return `<div style="text-align:center;padding:60px;color:var(--text2)">
+      <div style="font-size:48px;margin-bottom:16px">🔒</div>
+      <div>Admin access required. <a href="#" onclick="showPage('auth')" style="color:var(--accent)">Sign in as admin →</a></div>
+      <div style="font-size:12px;margin-top:8px;color:var(--text3)">Use admin@parksmart.in / admin123</div>
+    </div>`;
+  }
+
+  const pages = {
+    overview: buildAdminOverview,
+    slots: buildAdminSlots,
+    bookings: buildAdminBookings,
+    users: buildAdminUsers,
+    pricing: buildAdminPricing,
+    entry: buildAdminEntry,
+    alerts: buildAdminAlerts,
+    analytics: buildAdminAnalytics
+  };
+
+  const content = (pages[adminPage] || buildAdminOverview)();
+
+  return `
+  <div class="admin-layout">
+    <div class="admin-sidebar">
+      <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--accent);margin-bottom:20px;padding:8px 12px">
+        ⚙️ Admin Panel
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Overview</div>
+        <button class="sidebar-btn ${adminPage==='overview'?'active':''}" onclick="adminNav('overview')"><span class="sb-icon">📊</span> Dashboard</button>
+        <button class="sidebar-btn ${adminPage==='analytics'?'active':''}" onclick="adminNav('analytics')"><span class="sb-icon">📈</span> Analytics</button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Operations</div>
+        <button class="sidebar-btn ${adminPage==='slots'?'active':''}" onclick="adminNav('slots')"><span class="sb-icon">🅿️</span> Slot Control</button>
+        <button class="sidebar-btn ${adminPage==='bookings'?'active':''}" onclick="adminNav('bookings')"><span class="sb-icon">📋</span> Bookings</button>
+        <button class="sidebar-btn ${adminPage==='entry'?'active':''}" onclick="adminNav('entry')"><span class="sb-icon">🚧</span> Entry/Exit</button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Control</div>
+        <button class="sidebar-btn ${adminPage==='users'?'active':''}" onclick="adminNav('users')"><span class="sb-icon">👥</span> Users</button>
+        <button class="sidebar-btn ${adminPage==='pricing'?'active':''}" onclick="adminNav('pricing')"><span class="sb-icon">💰</span> Pricing</button>
+        <button class="sidebar-btn ${adminPage==='alerts'?'active':''}" onclick="adminNav('alerts')"><span class="sb-icon">🚨</span> Alerts</button>
+      </div>
+      <div style="padding:12px;margin-top:auto">
+        <button class="btn btn-secondary btn-sm w-full" onclick="showPage('home')">← User View</button>
+      </div>
+    </div>
+    <div class="admin-main">${content}</div>
+  </div>`;
+}
+
+function adminNav(page) {
+  adminPage = page;
+  renderPage();
+}
+
+function buildAdminOverview() {
+  const d = getData();
+  let totalAvail=0, totalBooked=0, totalRes=0, totalEV=0;
+  for(const z of Object.values(d.zones)) {
+    for(const s of Object.values(z.slots)) {
+      if(s.state==='available') totalAvail++;
+      else if(s.state==='booked') totalBooked++;
+      else if(s.state==='reserved') totalRes++;
+      else if(s.state==='ev') totalEV++;
+    }
+  }
+  const activeBookings = d.bookings.filter(b=>b.status==='active').length;
+  const overtimeBookings = d.bookings.filter(b=>b.status==='overtime').length;
+  const openAlerts = d.alerts.filter(a=>a.status==='open'||a.status==='urgent').length;
+
+  return `
+  <div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+      <h2 style="font-family:var(--font-display);font-size:24px;font-weight:700">📊 Live Dashboard</h2>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="live-dot"></span><span class="text-sm" style="color:var(--text2)">Live Updates — Phoenix Marketcity</span>
+      </div>
+    </div>
+
+    <div class="dash-grid animate-in">
+      <div class="dash-card"><div class="dc-label">Total Capacity</div><div class="dc-value" style="color:var(--accent)">500</div><div class="dc-sub">Across 3 zones</div></div>
+      <div class="dash-card"><div class="dc-label">Available Now</div><div class="dc-value" style="color:var(--green)">${totalAvail+totalEV}</div><div class="dc-change up">↑ Real-time</div></div>
+      <div class="dash-card"><div class="dc-label">Currently Occupied</div><div class="dc-value" style="color:var(--red)">${totalBooked}</div><div class="dc-sub">${Math.round(totalBooked/500*100)}% capacity</div></div>
+      <div class="dash-card"><div class="dc-label">Active Bookings</div><div class="dc-value" style="color:var(--yellow)">${activeBookings}</div><div class="dc-sub">${overtimeBookings} overtime</div></div>
+      <div class="dash-card"><div class="dc-label">Today Revenue</div><div class="dc-value" style="color:var(--green)">₹${(d.revenue.today).toLocaleString('en-IN')}</div><div class="dc-change up">↑ Live</div></div>
+      <div class="dash-card"><div class="dc-label">Open Alerts</div><div class="dc-value" style="color:${openAlerts>0?'var(--red)':'var(--text)'}">${openAlerts}</div><div class="dc-sub">${openAlerts>0?'Needs attention':'All clear'}</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:24px" class="animate-in anim-delay-1">
+      ${['B1','B2','OA'].map(zid => {
+        const z = d.zones[zid];
+        let av=0, bk=0, ev=0;
+        for(const s of Object.values(z.slots)) {
+          if(s.state==='available') av++;
+          else if(s.state==='booked') bk++;
+          else if(s.state==='ev') ev++;
+        }
+        const pct = Math.round((av+ev)/z.total*100);
+        return `<div class="dash-card">
+          <div class="dc-label">Zone ${zid} — ${z.name}</div>
+          <div style="display:flex;gap:12px;margin:8px 0">
+            <span style="color:var(--green)">✓ ${av+ev} free</span>
+            <span style="color:var(--red)">✗ ${bk} occupied</span>
+          </div>
+          <div class="avail-bar" style="height:8px"><div class="avail-fill ${pct<30?'danger':pct<50?'warn':''}" style="width:${pct}%"></div></div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px">${pct}% available</div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    ${overtimeBookings > 0 ? `
+    <div class="fine-banner animate-in">
+      <span class="fb-icon">⚠️</span>
+      <span class="fb-text"><strong>${overtimeBookings} vehicles in overtime.</strong> Revenue loss risk. Check Bookings tab.</span>
+      <button class="btn btn-sm btn-danger" style="margin-left:auto" onclick="adminNav('bookings')">View →</button>
+    </div>` : ''}
+  </div>`;
+}
+
+function buildAdminSlots() {
+  const d = getData();
+  return `
+  <div>
+    <h2 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:20px">🅿️ Slot Control</h2>
+    <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+      <button class="btn btn-secondary btn-sm" onclick="adminBulkAction('available')">✓ Mark All Available (B1)</button>
+      <button class="btn btn-secondary btn-sm" onclick="adminBulkAction('reserved')">⚠ Block Zone for Maintenance</button>
+      <button class="btn btn-secondary btn-sm" onclick="refreshSlotsSim()">🔄 Simulate Traffic</button>
+    </div>
+    ${['B1','B2','OA'].map(zid => {
+      const z = d.zones[zid];
+      const slotArr = Object.values(z.slots).slice(0,60);
+      return `<div class="slot-grid-container animate-in" style="margin-bottom:20px">
+        <div class="section-title" style="font-size:16px;margin-bottom:16px">${z.name} — Admin Override</div>
+        <div class="slot-legend">
+          <div class="legend-item"><div class="legend-dot ld-green"></div>Available</div>
+          <div class="legend-item"><div class="legend-dot ld-red"></div>Occupied</div>
+          <div class="legend-item"><div class="legend-dot ld-yellow"></div>Reserved</div>
+          <div class="legend-item"><div class="legend-dot ld-blue"></div>EV</div>
+        </div>
+        <div class="slot-grid">
+          ${slotArr.map(s=>`<div class="slot ${s.state}" title="${s.id}:${s.state}" onclick="adminToggleSlot('${s.id}','${zid}')">${s.num}</div>`).join('')}
+        </div>
+        <div style="font-size:12px;color:var(--text3);margin-top:8px">Showing first 60 slots. Click to cycle state.</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function adminToggleSlot(slotId, zone) {
+  const d = getData();
+  const s = d.zones[zone].slots[slotId];
+  if(!s) return;
+  const cycle = {available:'reserved', reserved:'booked', booked:'available', ev:'available', locked:'available'};
+  s.state = cycle[s.state] || 'available';
+  saveData(d);
+  adminNav('slots');
+  toast(`Slot ${slotId} → ${s.state}`, 'success');
+}
+
+function adminBulkAction(action) {
+  const d = getData();
+  for(const s of Object.values(d.zones['B1'].slots)) {
+    if(s.state !== 'booked') s.state = action;
+  }
+  saveData(d);
+  adminNav('slots');
+  toast(`B1 bulk action: ${action}`, 'success');
+}
+
+function refreshSlotsSim() {
+  const d = getData();
+  for(const z of Object.values(d.zones)) {
+    for(const s of Object.values(z.slots)) {
+      if(s.state==='available'&&Math.random()<.08) s.state='booked';
+      else if(s.state==='booked'&&Math.random()<.04&&!s.bookingId) s.state='available';
+    }
+  }
+  saveData(d);
+  adminNav('slots');
+  toast('Traffic simulation updated', 'success');
+}
+
+function buildAdminBookings() {
+  const d = getData();
+  const bookings = [...d.bookings].reverse().slice(0,20);
+  return `
+  <div>
+    <h2 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:20px">📋 Booking Management</h2>
+    <div class="table-wrapper animate-in">
+      <table class="data-table">
+        <thead><tr>
+          <th>Booking ID</th><th>User</th><th>Zone/Slot</th><th>Vehicle</th><th>Status</th><th>Amount</th><th>Actions</th>
+        </tr></thead>
+        <tbody>
+          ${bookings.length === 0 ? '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:32px">No bookings yet</td></tr>' :
+            bookings.map(b => {
+              const u = d.users.find(u=>u.id===b.userId);
+              return `<tr>
+                <td class="font-mono" style="color:var(--accent)">${b.id}</td>
+                <td>${u?.name||'Unknown'}</td>
+                <td>${b.zone} — ${b.slotIds[0]}</td>
+                <td>${b.vehicle.toUpperCase()}</td>
+                <td><span class="badge ${b.status==='active'?'badge-green':b.status==='overtime'?'badge-red':b.status==='cancelled'?'badge-red':'badge-accent'}">${b.status.toUpperCase()}</span></td>
+                <td style="color:var(--accent)">₹${b.total}${b.fine?` <span style="color:var(--red)">+₹${b.fine} fine</span>`:''}</td>
+                <td>
+                  ${b.status==='active'||b.status==='overtime'?`
+                    <button class="btn btn-xs btn-secondary" onclick="extendBooking('${b.id}',1)">+1hr</button>
+                    <button class="btn btn-xs btn-danger" onclick="adminForceEnd('${b.id}')">Force End</button>
+                  `:'—'}
+                </td>
+              </tr>`;
+            }).join('')
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function adminForceEnd(bookingId) {
+  cancelBooking(bookingId);
+  adminNav('bookings');
+}
+
+function buildAdminUsers() {
+  const d = getData();
+  return `
+  <div>
+    <h2 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:20px">👥 User Management</h2>
+    <div class="table-wrapper animate-in">
+      <table class="data-table">
+        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Bookings</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          ${d.users.map(u => `<tr>
+            <td>${u.name}</td>
+            <td style="color:var(--text2)">${u.email}</td>
+            <td><span class="badge ${u.role==='admin'?'badge-accent':'badge-green'}">${u.role.toUpperCase()}</span></td>
+            <td>${u.bookings?.length||0}</td>
+            <td><span class="badge ${u.blocked?'badge-red':'badge-green'}">${u.blocked?'BLOCKED':'ACTIVE'}</span></td>
+            <td>
+              ${u.role!=='admin'?`<button class="btn btn-xs btn-danger" onclick="adminToggleBlock('${u.id}')">${u.blocked?'Unblock':'Block'}</button>`:'—'}
+            </td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function adminToggleBlock(userId) {
+  const d = getData();
+  const u = d.users.find(u=>u.id===userId);
+  if(u) { u.blocked = !u.blocked; saveData(d); adminNav('users'); toast(`User ${u.blocked?'blocked':'unblocked'}`, u.blocked?'error':'success'); }
+}
+
+function buildAdminPricing() {
+  const d = getData();
+  const p = d.pricing;
+  return `
+  <div>
+    <h2 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:20px">💰 Pricing Control</h2>
+    <div class="booking-form animate-in" style="max-width:480px">
+      <div class="section-title" style="font-size:16px;margin-bottom:16px">Base Rates (₹/hr)</div>
+      <div class="form-grid">
+        <div class="form-group"><label>🏍️ Bike</label><input type="number" id="pr-bike" value="${p.bike}"/></div>
+        <div class="form-group"><label>🚗 Car</label><input type="number" id="pr-car" value="${p.car}"/></div>
+        <div class="form-group"><label>⚡ EV</label><input type="number" id="pr-ev" value="${p.ev}"/></div>
+        <div class="form-group"><label>Surge Multiplier</label><input type="number" id="pr-multi" value="${p.peakMulti}" step="0.05"/></div>
+        <div class="form-group"><label>Peak Start (hour)</label><input type="number" id="pr-pstart" value="${p.peakHours.start}" min="0" max="23"/></div>
+        <div class="form-group"><label>Peak End (hour)</label><input type="number" id="pr-pend" value="${p.peakHours.end}" min="0" max="23"/></div>
+      </div>
+      <div style="margin:16px 0;display:flex;align-items:center;gap:12px">
+        <label style="font-size:14px">Surge Override:</label>
+        <button class="btn ${p.surgeActive?'btn-danger':'btn-secondary'} btn-sm" onclick="adminToggleSurge()">
+          ${p.surgeActive?'⚡ Surge ACTIVE — Click to Disable':'⚡ Enable Manual Surge'}
+        </button>
+      </div>
+      <button class="btn btn-primary" onclick="adminSavePricing()">Save Pricing →</button>
+    </div>
+
+    <div style="margin-top:24px;padding:16px;background:var(--surface);border-radius:12px;max-width:480px">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px">Current Effective Rates</div>
+      ${['bike','car','ev'].map(v=>`<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px solid var(--border)">
+        <span>${v.charAt(0).toUpperCase()+v.slice(1)}</span>
+        <span style="color:var(--accent)">₹${getEffectiveRate(v)}/hr ${isSurge()?'(surge)':''}</span>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function adminToggleSurge() {
+  const d = getData();
+  d.pricing.surgeActive = !d.pricing.surgeActive;
+  saveData(d);
+  adminNav('pricing');
+  toast(`Surge ${d.pricing.surgeActive?'enabled':'disabled'}`, 'success');
+}
+
+function adminSavePricing() {
+  const d = getData();
+  d.pricing.bike = parseInt(document.getElementById('pr-bike').value)||20;
+  d.pricing.car = parseInt(document.getElementById('pr-car').value)||50;
+  d.pricing.ev = parseInt(document.getElementById('pr-ev').value)||40;
+  d.pricing.peakMulti = parseFloat(document.getElementById('pr-multi').value)||1.25;
+  d.pricing.peakHours.start = parseInt(document.getElementById('pr-pstart').value)||18;
+  d.pricing.peakHours.end = parseInt(document.getElementById('pr-pend').value)||22;
+  saveData(d);
+  toast('Pricing updated successfully!', 'success');
+  adminNav('pricing');
+}
+
+function buildAdminEntry() {
+  const d = getData();
+  const recentBookings = d.bookings.filter(b=>b.status==='active').slice(0,5);
+  return `
+  <div>
+    <h2 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:20px">🚧 Entry / Exit System</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:24px" class="animate-in">
+      <div class="booking-form">
+        <div class="section-title" style="font-size:15px;margin-bottom:12px">📷 QR Code Scanner (Simulate)</div>
+        <div class="scan-box" id="scan-box" onclick="simulateScan()">
+          <div class="scan-frame">📷</div>
+          <div style="font-size:14px;font-weight:600">Click to Simulate QR Scan</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:8px">Entry/Exit validation</div>
+        </div>
+      </div>
+
+      <div class="booking-form">
+        <div class="section-title" style="font-size:15px;margin-bottom:12px">🔍 Manual Lookup</div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label>Booking ID or License Plate</label>
+          <input type="text" id="lookup-input" placeholder="BK12345678 or KA-01-AB-1234"/>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="adminLookup()">Validate →</button>
+        <div id="lookup-result" style="margin-top:12px"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title" style="font-size:16px;margin-bottom:12px">🔑 Active Gate Entries</div>
+      <div class="table-wrapper animate-in">
+        <table class="data-table">
+          <thead><tr><th>Booking ID</th><th>Plate</th><th>Zone</th><th>Expires</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            ${recentBookings.length===0?`<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:24px">No active entries</td></tr>`:
+              recentBookings.map(b=>{
+                const exp = new Date(b.expiresAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+                const isOT = b.expiresAt < Date.now();
+                return `<tr>
+                  <td class="font-mono" style="color:var(--accent)">${b.id}</td>
+                  <td>${b.plate}</td>
+                  <td>${b.zone}</td>
+                  <td style="color:${isOT?'var(--red)':'var(--text)'}">${exp} ${isOT?'⚠️':''}</td>
+                  <td><span class="badge badge-green">ENTERED</span></td>
+                  <td><button class="btn btn-xs btn-secondary" onclick="adminRecordExit('${b.id}')">Record Exit</button></td>
+                </tr>`;
+              }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>`;
+}
+
+function simulateScan() {
+  const box = document.getElementById('scan-box');
+  if(box) box.classList.add('scanning');
+  setTimeout(() => {
+    const d = getData();
+    const active = d.bookings.filter(b=>b.status==='active');
+    if(active.length > 0) {
+      const b = active[Math.floor(Math.random()*active.length)];
+      toast(`✅ QR Valid — Booking ${b.id} • ${b.plate} • ${b.zone}`, 'success');
+    } else {
+      toast('No active bookings to scan', 'warning');
+    }
+    if(box) box.classList.remove('scanning');
+  }, 1500);
+}
+
+function adminLookup() {
+  const val = document.getElementById('lookup-input')?.value.trim().toUpperCase();
+  const res = document.getElementById('lookup-result');
+  if(!val || !res) return;
+
+  const d = getData();
+  const b = d.bookings.find(b => b.id === val || b.plate.replace(/-/g,'') === val.replace(/-/g,''));
+  if(!b) { res.innerHTML = `<span style="color:var(--red)">❌ Booking not found</span>`; return; }
+
+  const u = d.users.find(u=>u.id===b.userId);
+  const isOT = b.expiresAt < Date.now();
+  res.innerHTML = `<div style="background:var(--bg3);border-radius:8px;padding:12px;font-size:13px">
+    <div style="color:var(--green);font-weight:600;margin-bottom:6px">✓ Booking Found</div>
+    <div>User: ${u?.name||'Unknown'}</div>
+    <div>Zone: ${b.zone} • Slots: ${b.slotIds.join(', ')}</div>
+    <div style="color:${isOT?'var(--red)':'var(--green)'}">Status: ${b.status.toUpperCase()} ${isOT?'⚠️ OVERTIME':''}</div>
+  </div>`;
+}
+
+function adminRecordExit(bookingId) {
+  const d = getData();
+  const b = d.bookings.find(b=>b.id===bookingId);
+  if(!b) return;
+  b.status = 'completed';
+  b.exitTime = Date.now();
+  for(const sid of b.slotIds) {
+    const s = d.zones[b.zone]?.slots[sid];
+    if(s) { s.state='available'; s.vehicle=null; s.bookingId=null; }
+  }
+  saveData(d);
+  toast(`Exit recorded for ${bookingId}. Slot freed.`, 'success');
+  adminNav('entry');
+}
+
+function buildAdminAlerts() {
+  const d = getData();
+  const alerts = [...d.alerts].reverse();
+  return `
+  <div>
+    <h2 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:20px">🚨 Alert System</h2>
+    ${alerts.length===0?`<div style="text-align:center;padding:60px;color:var(--text2)">✓ No alerts. All clear.</div>`:
+      `<div class="table-wrapper animate-in">
+        <table class="data-table">
+          <thead><tr><th>Time</th><th>Type</th><th>Message</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            ${alerts.map(a=>`<tr>
+              <td style="color:var(--text2)">${new Date(a.time).toLocaleTimeString('en-IN')}</td>
+              <td><span class="badge ${a.status==='urgent'?'badge-red':'badge-yellow'}">${a.type.toUpperCase()}</span></td>
+              <td>${a.msg}</td>
+              <td><span class="badge ${a.status==='open'?'badge-yellow':a.status==='urgent'?'badge-red':'badge-green'}">${a.status.toUpperCase()}</span></td>
+              <td><button class="btn btn-xs btn-secondary" onclick="adminResolveAlert('${a.id}')">Resolve</button></td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`
+    }
+  </div>`;
+}
+
+function adminResolveAlert(id) {
+  const d = getData();
+  const a = d.alerts.find(a=>a.id===id);
+  if(a) { a.status='resolved'; saveData(d); adminNav('alerts'); toast('Alert resolved', 'success'); }
+}
+
+function buildAdminAnalytics() {
+  const d = getData();
+  const hours = ['6AM','8AM','10AM','12PM','2PM','4PM','6PM','8PM','10PM'];
+  const occupancy = [15,28,42,58,71,65,89,95,72];
+  const maxH = 95;
+
+  return `
+  <div>
+    <h2 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:20px">📈 Analytics</h2>
+
+    <div class="dash-grid animate-in">
+      <div class="dash-card"><div class="dc-label">Today's Revenue</div><div class="dc-value" style="color:var(--green)">₹${d.revenue.today.toLocaleString('en-IN')}</div><div class="dc-change up">↑ Live</div></div>
+      <div class="dash-card"><div class="dc-label">Weekly Revenue</div><div class="dc-value" style="color:var(--accent)">₹${d.revenue.week.toLocaleString('en-IN')}</div></div>
+      <div class="dash-card"><div class="dc-label">Total Revenue</div><div class="dc-value" style="color:var(--purple)">₹${Math.round(d.revenue.total/1000)}K</div></div>
+      <div class="dash-card"><div class="dc-label">Avg Occupancy</div><div class="dc-value" style="color:var(--yellow)">62%</div><div class="dc-sub">Today</div></div>
+    </div>
+
+    <div class="rev-chart animate-in anim-delay-1">
+      <div class="section-title" style="font-size:15px;margin-bottom:16px">📊 Hourly Occupancy (Today)</div>
+      <div class="chart-bar-container">
+        ${hours.map((h,i)=>`<div class="chart-bar" style="height:${Math.round(occupancy[i]/maxH*100)}%;background:${occupancy[i]>80?'linear-gradient(180deg,var(--red),var(--red2))':occupancy[i]>60?'linear-gradient(180deg,var(--yellow),var(--yellow2))':'linear-gradient(180deg,var(--accent),var(--accent2))'}">
+          <div class="cb-label">${h}</div>
+        </div>`).join('')}
+      </div>
+      <div style="display:flex;gap:16px;margin-top:24px;font-size:12px">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Low</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>Medium</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>High</div>
+      </div>
+    </div>
+
+    <div class="rev-chart animate-in anim-delay-2">
+      <div class="section-title" style="font-size:15px;margin-bottom:12px">💰 Revenue by Zone (Today)</div>
+      <div style="display:grid;gap:10px">
+        ${[['B1','Basement 1',60],['B2','Basement 2',28],['OA','Open Area',12]].map(([id,name,pct])=>`
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="width:80px;font-size:13px">${name}</span>
+          <div style="flex:1;background:var(--bg3);border-radius:4px;height:20px;overflow:hidden">
+            <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--accent),var(--purple));border-radius:4px"></div>
+          </div>
+          <span style="width:40px;text-align:right;font-size:13px;color:var(--accent)">${pct}%</span>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="dash-card animate-in anim-delay-3">
+      <div class="dc-label">AI Peak Prediction</div>
+      <div style="margin-top:10px;display:grid;gap:6px;font-size:13px">
+        <div style="display:flex;justify-content:space-between"><span>Tomorrow (Weekday)</span><span style="color:var(--green)">Moderate — 55% avg</span></div>
+        <div style="display:flex;justify-content:space-between"><span>Saturday</span><span style="color:var(--red)">High — 88% avg</span></div>
+        <div style="display:flex;justify-content:space-between"><span>Sunday</span><span style="color:var(--yellow)">Very High — 94% avg</span></div>
+        <div style="display:flex;justify-content:space-between"><span>Next Week (Mon–Fri)</span><span style="color:var(--green)">Low-Moderate — 42% avg</span></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ==================== TIMER SYSTEM ====================
+function initTimers() {
+  // Confirm page timer
+  const timerEl = document.getElementById('confirm-timer');
+  if(timerEl && window._lastBooking) {
+    const tick = () => {
+      const left = window._lastBooking.expiresAt - Date.now();
+      if(left <= 0) {
+        timerEl.textContent = '00:00';
+        timerEl.className = 'timer-display expired';
+        return;
+      }
+      const h = Math.floor(left / 3600000);
+      const m = Math.floor((left % 3600000) / 60000);
+      const s = Math.floor((left % 60000) / 1000);
+      timerEl.textContent = `${h>0?h+':':''}${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      timerEl.className = `timer-display ${left < 300000 ? 'warning' : ''}`;
+    };
+    tick();
+    const interval = setInterval(() => { if(!document.getElementById('confirm-timer')) { clearInterval(interval); return; } tick(); }, 1000);
+  }
+
+  // Slot grid render
+  if(document.getElementById('slot-grid-root')) renderSlotGrid();
+
+  // Live sim - random slot changes every 15s
+  if(currentPage === 'home' || currentPage === 'booking') {
+    setTimeout(() => {
+      if(currentPage === 'home' || currentPage === 'booking') {
+        const d = getData();
+        let changed = 0;
+        for(const z of Object.values(d.zones)) {
+          for(const s of Object.values(z.slots)) {
+            if(!s.bookingId) {
+              if(s.state==='available'&&Math.random()<.02) { s.state='booked'; changed++; }
+              else if(s.state==='booked'&&Math.random()<.015) { s.state='available'; changed++; }
+            }
+          }
+        }
+        if(changed>0) saveData(d);
+      }
+    }, 15000);
+  }
+
+  // Restore session
+  if(!currentUser) {
+    const d = getData();
+    if(d.currentUser) {
+      const u = d.users.find(u=>u.id===d.currentUser);
+      if(u) { currentUser = u; }
+    }
+  }
+}
+
+function attachEventListeners() {
+  // Keyboard shortcuts
+  document.onkeydown = (e) => {
+    if(e.key === 'Escape') {
+      const modal = document.querySelector('.modal-overlay');
+      if(modal) modal.remove();
+    }
+  };
+}
+
+function showUserMenu() {
+  const existing = document.querySelector('.modal-overlay');
+  if(existing) { existing.remove(); return; }
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.onclick = (e) => { if(e.target===overlay) overlay.remove(); };
+  overlay.innerHTML = `
+    <div class="modal" style="max-width:300px">
+      <h3>👤 ${currentUser.name}</h3>
+      <div style="color:var(--text2);font-size:13px;margin-bottom:20px">${currentUser.email}</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn btn-secondary" onclick="requireAuth('my-bookings');document.querySelector('.modal-overlay').remove()">📋 My Bookings</button>
+        ${currentUser.role==='admin'?`<button class="btn btn-secondary" onclick="showPage('admin');document.querySelector('.modal-overlay').remove()">⚙️ Admin Dashboard</button>`:''}
+        <button class="btn btn-danger" onclick="logout()">Sign Out</button>
+      </div>
+    </div>`;
+  document.getElementById('app').appendChild(overlay);
+}
+
+// ==================== INIT ====================
+window.onload = () => {
+  // Restore session
+  const d = getData();
+  if(d.currentUser) {
+    const u = d.users.find(u=>u.id===d.currentUser);
+    if(u) currentUser = u;
+  }
+
+  // Resume expiry timers
+  for(const b of d.bookings.filter(b=>b.status==='active')) {
+    startExpiryTimer(b.id);
+  }
+
+  renderPage();
+};
+
+// Expose functions globally
+Object.assign(window, {
+  showPage, requireAuth, adminNav, renderPage,
+  doLogin, doSignup, switchAuthTab, logout, showUserMenu,
+  toggleSlot, clearSelection, proceedToPayment, refreshSlots,
+  selectPayMethod, processPayment,
+  extendBooking, cancelBooking,
+  reportIssue, triggerPanic,
+  adminToggleSlot, adminBulkAction, refreshSlotsSim, adminToggleSurge, adminSavePricing,
+  adminForceEnd, adminToggleBlock, adminLookup, adminRecordExit, simulateScan, adminResolveAlert, adminNav
+});
+</script>
+</body>
+</html>
